@@ -1,0 +1,99 @@
+[
+  {
+    "id": 1,
+    "text": "Compresor A",
+    "modelo": "A1",
+    "marca": "Audi",
+    "categoria": "compresor",
+    "imageSrc": "https://placehold.co/250x250/fff/000",
+    "repuestos": [
+      { "nombre": "SANDEN", "logo": "/logos/sanden.png", "codigo": "CP005484D" },
+      { "nombre": "ACTEC max", "logo": "/logos/actec.png", "codigo": "CP005484D" },
+      { "nombre": "DENSO", "logo": "/logos/denso.png", "codigo": "CP005484D" }
+    ]
+  },
+  {
+    "id": 2,
+    "text": "Compresor B",
+    "modelo": "Corolla",
+    "marca": "Toyota",
+    "categoria": "compresor",
+    "imageSrc": "https://placehold.co/250x250/fff/000",
+    "repuestos": [
+      { "nombre": "DENSO", "logo": "/logos/denso.png", "codigo": "CP005485D" },
+      { "nombre": "SANDEN", "logo": "/logos/sanden.png", "codigo": "CP005486D" }
+    ]
+  },
+  {
+    "id": 3,
+    "text": "Compresor C",
+    "modelo": "Civic",
+    "marca": "Honda",
+    "categoria": "compresor",
+    "imageSrc": "https://placehold.co/250x250/fff/000",
+    "repuestos": [
+      { "nombre": "ACTEC max", "logo": "/logos/actec.png", "codigo": "CP005487D" },
+      { "nombre": "Autofrio Importaciones", "logo": "/logos/autofrio.png", "codigo": "CP005488D" }
+    ]
+  },
+  {
+    "id": 4,
+    "text": "Evaporador D",
+    "modelo": "Camry",
+    "marca": "Toyota",
+    "categoria": "evaporador",
+    "imageSrc": "https://placehold.co/250x250/fff/000",
+    "repuestos": [
+      { "nombre": "SANDEN", "logo": "/logos/sanden.png", "codigo": "EVP005490T" },
+      { "nombre": "DENSO", "logo": "/logos/denso.png", "codigo": "EVP005491T" }
+    ]
+  },
+  {
+    "id": 5,
+    "text": "Condensador E",
+    "modelo": "A4",
+    "marca": "Audi",
+    "categoria": "condensador",
+    "imageSrc": "https://placehold.co/250x250/fff/000",
+    "repuestos": [
+      { "nombre": "Autofrio Importaciones", "logo": "/logos/autofrio.png", "codigo": "CON005492A" },
+      { "nombre": "SANDEN", "logo": "/logos/sanden.png", "codigo": "CON005493A" }
+    ]
+  },
+  {
+    "id": 6,
+    "text": "Compresor F",
+    "modelo": "Civic",
+    "marca": "Honda",
+    "categoria": "compresor",
+    "imageSrc": "https://placehold.co/250x250/fff/000",
+    "repuestos": [
+      { "nombre": "ACTEC max", "logo": "/logos/actec.png", "codigo": "CP005494H" },
+      { "nombre": "DENSO", "logo": "/logos/denso.png", "codigo": "CP005495H" }
+    ]
+  },
+  {
+    "id": 7,
+    "text": "Evaporador G",
+    "modelo": "Accord",
+    "marca": "Honda",
+    "categoria": "evaporador",
+    "imageSrc": "https://placehold.co/250x250/fff/000",
+    "repuestos": [
+      { "nombre": "DENSO", "logo": "/logos/denso.png", "codigo": "EVP005496H" },
+      { "nombre": "SANDEN", "logo": "/logos/sanden.png", "codigo": "EVP005497H" }
+    ]
+  },
+  {
+    "id": 8,
+    "text": "Condensador H",
+    "modelo": "Rav4",
+    "marca": "Toyota",
+    "categoria": "condensador",
+    "imageSrc": "https://placehold.co/250x250/fff/000",
+    "repuestos": [
+      { "nombre": "ACTEC max", "logo": "/logos/actec.png", "codigo": "CON005498T" },
+      { "nombre": "Autofrio Importaciones", "logo": "/logos/autofrio.png", "codigo": "CON005499T" }
+    ]
+  }
+]

@@ -1,0 +1,57 @@
+[
+{
+    "id": 1, 
+    "text": "Compresores",
+    "imageSrc": "/logos/compresor.png"
+},
+{
+    "id": 2, 
+    "text": "Evaporadores",
+    "imageSrc": "/logos/compresor.png"
+},
+{
+    "id": 3, 
+    "text": "Condensadores",
+    "imageSrc": "/logos/compresor.png"
+},
+{
+    "id": 4, 
+    "text": "Valvulas",
+    "imageSrc": "/logos/compresor.png"
+},
+{
+    "id": 5, 
+    "text": "Bases",
+    "imageSrc": "/logos/compresor.png"
+},
+{
+    "id": 6, 
+    "text": "Bases",
+    "imageSrc": "/logos/compresor.png"
+},
+{
+    "id": 7, 
+    "text": "Bases",
+    "imageSrc": "/logos/compresor.png"
+},
+{
+    "id": 8, 
+    "text": "Bases",
+    "imageSrc": "/logos/compresor.png"
+},
+{
+    "id": 9, 
+    "text": "Bases",
+    "imageSrc": "/logos/compresor.png"
+},
+{
+    "id": 10, 
+    "text": "Bases",
+    "imageSrc": "/logos/compresor.png"
+},
+{
+    "id": 11, 
+    "text": "Bases",
+    "imageSrc": "/logos/compresor.png"
+}
+]

@@ -1,0 +1,122 @@
+[
+    {
+        "id": 1,
+        "idcategoria": 1,
+        "imageSrc": "/logos/chevrolet.webp",
+        "text": "Toyota"
+    },
+    {
+        "id": 2,
+        "idcategoria": 1,
+        "imageSrc": "/logos/chevrolet.webp",
+        "text": "Mercedes-Benz"
+    },
+    {
+        "id": 3,
+        "idcategoria": 1,
+        "imageSrc": "/logos/chevrolet.webp",
+        "text": "BMW"
+    },
+    {
+        "id": 4,
+        "idcategoria": 1,
+        "imageSrc": "/logos/chevrolet.webp",
+        "text": "Honda"
+    },
+    {
+        "id": 5,
+        "idcategoria": 2,
+        "imageSrc": "/logos/chevrolet.webp",
+        "text": "Ford"
+    },
+    {
+        "id": 6,
+        "idcategoria": 2,
+        "imageSrc": "/logos/chevrolet.webp",
+        "text": "Chevrolet"
+    },
+    {
+        "id": 7,
+        "idcategoria": 2,
+        "imageSrc": "/logos/chevrolet.webp",
+        "text": "Volkswagen"
+    },
+    {
+        "id": 8,
+        "idcategoria": 4,
+        "imageSrc": "/logos/chevrolet.webp",
+        "text": "Audi"
+    },
+    {
+        "id": 9,
+        "idcategoria": 4,
+        "imageSrc": "/logos/chevrolet.webp",
+        "text": "Porsche"
+    },
+    {
+        "id": 10,
+        "idcategoria": 4,
+        "imageSrc": "/logos/chevrolet.webp",
+        "text": "Nissan"
+    },
+    {
+        "id": 11,
+        "idcategoria": 4,
+        "imageSrc": "/logos/chevrolet.webp",
+        "text": "Kia"
+    },
+    {
+        "id": 12,
+        "idcategoria": 2,
+        "imageSrc": "/logos/chevrolet.webp",
+        "text": "Hyundai"
+    },
+    {
+        "id": 13,
+        "idcategoria": 2,
+        "imageSrc": "/logos/chevrolet.webp",
+        "text": "Volvo"
+    },
+    {
+        "id": 14,
+        "idcategoria": 2,
+        "imageSrc": "/logos/chevrolet.webp",
+        "text": "Land Rover"
+    },
+    {
+        "id": 15,
+        "idcategoria": 2,
+        "imageSrc": "/logos/chevrolet.webp",
+        "text": "Jaguar"
+    },
+    {
+        "id": 16,
+        "idcategoria": 2,
+        "imageSrc": "/logos/chevrolet.webp",
+        "text": "Subaru"
+    },
+    {
+        "id": 17,
+        "idcategoria": 2,
+        "imageSrc": "/logos/chevrolet.webp",
+        "text": "Mazda"
+    },
+    {
+        "id": 18,
+        "idcategoria": 2,
+        "imageSrc": "/logos/chevrolet.webp",
+        "text": "Tesla"
+    },
+    {
+        "id": 19,
+        "idcategoria": 2,
+        "imageSrc": "/logos/chevrolet.webp",
+        "text": "Peugeot"
+    },
+    {
+        "id": 20,
+        "idcategoria": 2,
+        "imageSrc": "/logos/chevrolet.webp",
+        "text": "Renault"
+    }
+]

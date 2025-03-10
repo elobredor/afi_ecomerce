@@ -1,0 +1,62 @@
+/* [project]/src/components/catalogo/catalogoPage.module.css [app-client] (css) */
+.catalogoPage-module__xFpZRa__catalogContainer {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.catalogoPage-module__xFpZRa__breadcrumbWrapper {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px 0;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.catalogoPage-module__xFpZRa__gridContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-auto-rows: 250px;
+  gap: 20px;
+  justify-items: center;
+  padding: 20px 0;
+}
+
+.catalogoPage-module__xFpZRa__item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px #0000001a;
+  padding: 5px;
+  transition: transform .3s ease-in-out;
+  width: 100%;
+  height: 100%;
+}
+
+.catalogoPage-module__xFpZRa__item:hover {
+  transform: scale(1.05);
+}
+
+.catalogoPage-module__xFpZRa__item.catalogoPage-module__xFpZRa__large {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.catalogoPage-module__xFpZRa__item.catalogoPage-module__xFpZRa__small {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+
+@media (width <= 768px) {
+  .catalogoPage-module__xFpZRa__gridContainer {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0;
+  }
+}
+
+
+/*# sourceMappingURL=src_components_catalogo_catalogoPage_module_e50a3f.css.map*/

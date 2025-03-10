@@ -1,0 +1,72 @@
+[
+    {
+        "id": 1,
+        "idcategoria": 1,
+        "idmarca": 4,
+        "imageSrc": "/logos/chevrolet.webp",
+        "text": "Corsa"
+    },
+    {
+        "id": 2,
+        "idcategoria": 1,
+        "idmarca": 4,
+        "imageSrc": "/logos/chevrolet.webp",
+        "text": "Evolucion"
+    },
+    {
+        "id": 3,
+        "idcategoria": 1,
+        "idmarca": 4,
+        "imageSrc": "/logos/chevrolet.webp",
+        "text": "Corsa"
+    },
+    {
+        "id": 4,
+        "idcategoria": 1,
+        "idmarca": 4,
+        "imageSrc": "/logos/chevrolet.webp",
+        "text": "Evolucion"
+    },
+    {
+        "id": 5,
+        "idcategoria": 1,
+        "idmarca": 4,
+        "imageSrc": "/logos/chevrolet.webp",
+        "text": "Corsa"
+    },
+    {
+        "id": 6,
+        "idcategoria": 1,
+        "idmarca": 4,
+        "imageSrc": "/logos/chevrolet.webp",
+        "text": "Evolucion"
+    },
+    {
+        "id": 7,
+        "idcategoria": 1,
+        "idmarca": 4,
+        "imageSrc": "/logos/chevrolet.webp",
+        "text": "Corsa"
+    },
+    {
+        "id": 8,
+        "idcategoria": 1,
+        "idmarca": 4,
+        "imageSrc": "/logos/chevrolet.webp",
+        "text": "Evolucion"
+    },
+    {
+        "id": 9,
+        "idcategoria": 4,
+        "idmarca": 3,
+        "imageSrc": "/logos/chevrolet.webp",
+        "text": "Spark"
+    },
+    {
+        "id": 10,
+        "idcategoria": 4,
+        "idmarca": 3,
+        "imageSrc": "/logos/chevrolet.webp",
+        "text": "Chevrolet"
+    }
+]

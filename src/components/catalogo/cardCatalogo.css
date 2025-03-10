@@ -1,0 +1,86 @@
+/* Contenedor que envuelve las tarjetas */
+.card-container {
+  display: flex;
+  flex-wrap: wrap; /* Permite que las tarjetas se distribuyan en varias filas */
+  justify-content: space-evenly; /* Alinea las tarjetas de manera uniforme */
+  gap: 16px; /* Espacio entre tarjetas */
+  width: 100%; /* Asegura que ocupe todo el ancho disponible */
+  padding: 20px;
+}
+
+/* Estilo de la tarjeta */
+.card {
+  width: 220px; /* Ancho fijo de la tarjeta */
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid var(--border-color);
+  border-radius: 0 13px;
+  overflow: hidden;
+  background: #fff;
+  transition: transform 0.3s ease; /* Agrega una leve animación a la tarjeta */
+  margin: auto; /* Centra la tarjeta dentro de su celda */
+}
+
+.card:hover {
+  transform: scale(1.05); /* Efecto de agrandamiento ligero al hacer hover */
+}
+
+/* Estilo de la imagen dentro de la tarjeta */
+.card-image {
+  width: 80%;
+  object-fit: cover; /* Asegura que la imagen cubra todo el contenedor sin distorsión */
+}
+
+/* Estilo del texto animado */
+.animated-text {
+  position: relative;
+  text-align: center;
+  color: var(--primary-color);
+  padding: 3px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.animated-text::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: red; /* Color de la línea subrayada */
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+/* Cambia la animación para que se active cuando se haga hover en la tarjeta */
+.card:hover .animated-text::after {
+  width: 100%;
+  left: 0;
+}
+
+/* Media Query para hacerlo responsivo en dispositivos pequeños */
+@media (max-width: 768px) {
+  .card-container {
+    justify-content: center; /* Centra las tarjetas en pantallas pequeñas */
+  }
+
+  .card {
+    /* width: calc(50% - 12px); */
+     /* Dos tarjetas por fila (50% menos espacio de gap) */
+    height: auto; /* Ajuste de altura para dispositivos móviles */
+  }
+
+  .card-image {
+    width: 100%; /* La imagen ocupa el 100% del ancho de la tarjeta */
+  }
+  .animated-text {
+    position: relative;
+    text-align: center;
+    color: var(--primary-color);
+    font-size: 18px;
+    font-weight: 700;
+  }
+  
+}

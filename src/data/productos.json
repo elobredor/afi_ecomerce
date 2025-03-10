@@ -1,0 +1,98 @@
+[
+  {
+    "id": "1",
+    "codigo": "CP5020",
+    "imageSrc": "/articulos/0492.jpg",
+    "brandLogo": "/logos/Autofrio.png",
+    "categoria": "Compresores",
+    "text": "AUDI A1",
+    "descripcion": "12-16 AC",
+    "precio": 450000,
+    "precioAnterior": "600000",
+    "aplications":["mazda 3", "mazda 6", "mazda cx-5"]
+  },
+  {
+    "id": "2",
+    "codigo": "CP5020",
+    "imageSrc": "/articulos/0492.jpg",
+    "brandLogo": "/logos/denso.png",
+    "categoria": "Evaporadores",
+    "text": "TOYOTA COROLLA",
+    "descripcion": "2020-2023 AC",
+    "precio": 450000,
+    "precioAnterior": "550000",
+    "aplications":["mazda 3", "mazda 6", "mazda cx-5", "Toyota Corola"]
+  },
+  {
+    "id": "3",
+    "codigo": "CP5020",
+    "imageSrc": "/articulos/0492.jpg",
+    "brandLogo": "/logos/sanden.png",
+    "categoria": "Condensadores",
+    "text": "HONDA CIVIC",
+    "descripcion": "2016-2021 AC",
+    "precio": 450000,
+    "precioAnterior": "750000",
+    "aplications":["mazda 3", "mazda 6", "mazda cx-5"]
+  },
+  {
+    "id": "4",
+    "codigo": "CP5020",
+    "imageSrc": "/articulos/0492.jpg",
+    "brandLogo": "/logos/Autofrio.png",
+    "categoria": "Filtros",
+    "text": "FLT550 BMW X5",
+    "descripcion": "Filtro para sistema AC",
+    "precio": 450000,
+    "precioAnterior": "150000",
+    "aplications":["mazda 3", "mazda 6", "mazda cx-5"]
+  },
+  {
+    "id": "5",
+    "codigo": "CP5020",
+    "imageSrc": "/articulos/0492.jpg",
+    "brandLogo": "/logos/Autofrio.png",
+    "categoria": "Válvulas",
+    "text": "VLV789 VOLKSWAGEN GOLF",
+    "descripcion": "Control de presión AC",
+    "precio": 450000,
+    "precioAnterior": "100000",
+    "aplications":["mazda 3", "mazda 6", "mazda cx-5"]
+  },
+  {
+    "id": "6",
+    "codigo": "CP5020",
+    "imageSrc": "/articulos/0492.jpg",
+    "brandLogo": "/logos/Autofrio.png",
+    "categoria": "Bases",
+    "text": "BAS301 TOYOTA RAV4",
+    "descripcion": "Base para compresor AC",
+    "precio": 450000,
+    "precioAnterior": "250000",
+    "aplications":["mazda 3", "mazda 6", "mazda cx-5"]
+  },
+  {
+    "id": "7",
+    "codigo": "CP5020",
+    "imageSrc": "/articulos/0492.jpg",
+    "brandLogo": "/logos/Autofrio.png",
+    "categoria": "Radiadores",
+    "text": "MAZDA CX-5",
+    "descripcion": "Sistema de refrigeración AC",
+    "precio": 450000,
+    "precioAnterior": "850000",
+    "aplications":["mazda 3", "mazda 6", "mazda cx-5"]
+  },
+  {
+    "id": "8",
+    "codigo": "CP5020",
+    "imageSrc": "/articulos/0492.jpg",
+    "brandLogo": "/logos/Autofrio.png",
+    "categoria": "Compresores",
+    "text": "FORD FOCUS",
+    "descripcion": "Compresor de aire acondicionado",
+    "precio": 450000,
+    "precioAnterior": "550000",
+    "aplications":["mazda 3", "mazda 6", "mazda cx-5"]
+  }
+]

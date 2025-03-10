@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Importar la fuente correctamente desde /public/fonts/titalium/ */
+@font-face {
+  font-family: "Titalium Web";
+  src: url("/fonts/titalium/TitilliumWeb-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Titalium Web";
+  src: url("/fonts/titalium/TitilliumWeb-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Titalium Web";
+  src: url("/fonts/titalium/TitilliumWeb-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: bold;
+}
+
+
+/* Definir variables de color */
+:root {
+  --primary-color: #0f367d;
+  --border-color: #e5e7eb;
+  --secondary-color: #2563eb;
+  --accent-color: #ef4444;
+  --text-color: #0f357d;
+  --background-color: #ffffff;
+  --color-green: #01b834;
+}
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #fefefe;
+    --text-color: #0f367d;
+  }
+}
+
+/* Aplicar la fuente a toda la página */
+html, body {
+  font-family: "Titalium Web", sans-serif !important;
+  color: var(--text-color);
+  background: var(--background-color);
+  overflow-x: hidden;
+  padding-top: 5rem;
+}
+
+/* Asegurar que todos los elementos hereden la fuente */
+* {
+  font-family: inherit;
+}

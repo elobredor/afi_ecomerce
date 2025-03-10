@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 23, "column": 0}, "map": {"version":3,"sources":["turbopack://[project]/src/middleware.ts"],"sourcesContent":["import { NextResponse } from \"next/server\";\nimport type { NextRequest } from \"next/server\";\n\nexport function middleware(req: NextRequest) {\n  debugger\n  // Verifica si el usuario tiene una sesión activa\n  const isAuthenticated = req.cookies.get(\"token\"); // Ajusta según tu lógica de autenticación\n  // Rutas que requieren autenticación\n  if (req.nextUrl.pathname.startsWith(\"/portal\") && !isAuthenticated) {\n    return NextResponse.redirect(new URL(\"/\", req.url)); // Redirige a login si no está autenticado\n  }\n\n  return NextResponse.next();\n}\n\n// Define en qué rutas se ejecuta el middleware\nexport const config = {\n  matcher: [\"/portal/:path*\", \"/cart\"], // Protege ambas rutas\n};\n"],"names":[],"mappings":";;;;AAAA;AAAA;;AAGO,SAAS,WAAW,GAAgB;IACzC,QAAQ;IACR,iDAAiD;IACjD,MAAM,kBAAkB,IAAI,OAAO,CAAC,GAAG,CAAC,UAAU,0CAA0C;IAC5F,oCAAoC;IACpC,IAAI,IAAI,OAAO,CAAC,QAAQ,CAAC,UAAU,CAAC,cAAc,CAAC,iBAAiB;QAClE,OAAO,oTAAA,CAAA,eAAY,CAAC,QAAQ,CAAC,IAAI,IAAI,KAAK,IAAI,GAAG,IAAI,0CAA0C;IACjG;IAEA,OAAO,oTAAA,CAAA,eAAY,CAAC,IAAI;AAC1B;AAGO,MAAM,SAAS;IACpB,SAAS;QAAC;QAAkB;KAAQ;AACtC"}},
+    {"offset": {"line": 46, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
+}

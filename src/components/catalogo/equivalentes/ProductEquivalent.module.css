@@ -1,0 +1,54 @@
+/* 📌 Contenedor de la grilla con 4 columnas */
+.container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Siempre 4 columnas */
+  grid-auto-rows: 400px; /* 🔥 Asegura que todas tengan la misma altura */
+  gap: 20px;
+  justify-content: center;
+  align-items: stretch; /* 🔥 Asegura que todas las tarjetas tengan la misma altura */
+}
+
+/* 📌 Estilo base de cada item */
+.item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  height: 100%; /* 🔥 Todas tendrán la misma altura */
+}
+
+/* 📌 Ajuste de tamaño para imágenes dentro de cada tarjeta */
+.item img {
+  max-width: 100%;
+  max-height: 150px;
+  object-fit: contain;
+}
+
+/* 📌 Cards más grandes (destacadas) */
+.item.large {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+/* 📌 Asegurar que los repuestos también ocupen el mismo espacio y agregamos scroll */
+.repuestoList {
+  width: 100%;
+  max-height: 100px; /* 🔥 Establecemos una altura máxima */
+  overflow-y: auto; /* 🔥 Scroll si hay muchos repuestos */
+}
+
+/* 📌 Estilos individuales de cada repuesto */
+.repuestoItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8f8f8;
+  padding: 8px;
+  border-radius: 5px;
+  width: 100%;
+  font-size: 14px;
+}

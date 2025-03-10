@@ -1,0 +1,81 @@
+/* [project]/src/components/catalogo/cardCatalogo.css [app-client] (css) */
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: 16px;
+  width: 100%;
+  padding: 20px;
+}
+
+.card {
+  width: 220px;
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid var(--border-color);
+  border-radius: 0 13px;
+  overflow: hidden;
+  background: #fff;
+  transition: transform .3s;
+  margin: auto;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card-image {
+  width: 80%;
+  object-fit: cover;
+}
+
+.animated-text {
+  position: relative;
+  text-align: center;
+  color: var(--primary-color);
+  padding: 3px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.animated-text:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: red;
+  transition: width .3s, left .3s;
+}
+
+.card:hover .animated-text:after {
+  width: 100%;
+  left: 0;
+}
+
+@media (width <= 768px) {
+  .card-container {
+    justify-content: center;
+  }
+
+  .card {
+    height: auto;
+  }
+
+  .card-image {
+    width: 100%;
+  }
+
+  .animated-text {
+    position: relative;
+    text-align: center;
+    color: var(--primary-color);
+    font-size: 18px;
+    font-weight: 700;
+  }
+}
+
+/*# sourceMappingURL=src_components_catalogo_cardCatalogo_b52d8e.css.map*/

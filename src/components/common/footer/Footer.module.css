@@ -1,0 +1,144 @@
+/* 📌 Contenedor Principal */
+.footer {
+    background: #002c6a;
+    color: white;
+    padding: 30px 20px;
+    font-size: 14px;
+  }
+  
+  /* 📌 Contenedor Interno */
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* 📌 Logo y Nombre de Empresa */
+  .logoSection {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    font-weight: bold;
+  }
+  
+  /* 📌 Enlaces */
+  .linksSection {
+    display: flex;
+    gap: 50px;
+  }
+  
+  .linksSection h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .linksSection ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .linksSection ul li {
+    margin-bottom: 5px;
+  }
+  
+  .linksSection ul li a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .linksSection ul li a:hover {
+    text-decoration: underline;
+  }
+  
+  /* 📌 Redes Sociales */
+  .socialSection h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .socialSection ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .socialSection ul li {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 5px;
+  }
+  
+  .socialSection ul li a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+  }
+  
+  .socialSection ul li a:hover {
+    text-decoration: underline;
+  }
+  
+  /* 📌 Sección Inferior */
+  .bottomSection {
+    border-top: 1px solid #ffffff30;
+    text-align: center;
+    padding-top: 15px;
+    margin-top: 20px;
+    font-size: 12px;
+  }
+  
+  /* 📌 Políticas */
+  .policies {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 10px;
+  }
+  
+  .policies a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .policies a:hover {
+    text-decoration: underline;
+  }
+  
+  /* 📌 Botón Flotante */
+  .floatingButton {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: red;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+  }
+  
+  .floatingButton svg {
+    color: white;
+  }
+  
+  /* 📌 Ocultar en dispositivos móviles */
+.hide-on-mobile {
+}
+
+/* 📌 Mostrar en pantallas grandes */
+@media (max-width: 768px) {
+  .container {
+    display: none;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+
