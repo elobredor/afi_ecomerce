@@ -8,5 +8,7 @@
   "/[category]/page": "app/[category]/page.js",
   "/api/marcas/route": "app/api/marcas/route.js",
   "/[category]/[brand]/page": "app/[category]/[brand]/page.js",
-  "/api/modelo/route": "app/api/modelo/route.js"
+  "/api/modelo/route": "app/api/modelo/route.js",
+  "/puntos-venta/page": "app/puntos-venta/page.js",
+  "/contacto/page": "app/contacto/page.js"
 }
