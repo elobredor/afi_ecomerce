@@ -1,13 +1,15 @@
+'use client'
 
 import styles from '../../components/catalogo/catalogoPage.module.css';
-import Banner from '@/components/catalogo/bannerCatalogo';
 import CardCatalogo from '@/components/catalogo/cardCatalogo';
 import Breadcrumb from '@/components/ui/Breadcrums/Breadcrums';
-import { getCatalogo } from '@/api/api';
-import Filters from '@/components/catalogo/filterSearch/filterSearch';
+import useFetchData from '@/hooks/useFetchData';
+import { api } from '@/services/api';
 
-const CatalogoPage = () => {
-  const catalogo = getCatalogo();
+const CatalogoPage = () => { 
+  const { data} = useFetchData(api.catalog.getAll)
+  const catalogo = data
+
   const filtersData = [
     { name: "Categoría", options: [{ label: "Compresores", value: "Compresores" }, { label: "Evaporadores", value: "Evaporadores" }] },
     { name: "Marca", options: [{ label: "Toyota", value: "Toyota" }, { label: "Ford", value: "Ford" }] },
@@ -22,25 +24,17 @@ const CatalogoPage = () => {
   
   return (
     <div>
-      {/* 📌 Banner Principal */}
-      {/* <Banner  imageSrc="/banners/catalogo.png" altText="Banner de catálogo" mt="-10" /> */}
-      {/* <Filters filters={filtersData} onFilterChange={handleFilterChange} onSearch={() => { }} /> */}
-
-      {/* 📌 Contenedor Principal */}
       <div className={styles.catalogContainer}>
-
-        {/* 📌 Contenedor de Breadcrumb alineado con las tarjetas */}
         <div className={styles.breadcrumbWrapper}>
           <Breadcrumb />
         </div>
 
-        {/* 📌 Contenedor de Tarjetas */}
         <div className={styles.gridContainer}>
           {catalogo.map((catalogo: { id: string; imageSrc: string; text: string }) => (
             <CardCatalogo
               key={catalogo.id}
               imageSrc={catalogo.imageSrc}
-              text={catalogo.text}
+              text={catalogo.text} // esto debe cambiar segun la data que el catalogo original y tales. 
               id={catalogo.id}
               categoria={catalogo.id}
               marca=""

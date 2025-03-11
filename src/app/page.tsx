@@ -17,44 +17,25 @@ import { useRouter } from "next/navigation";
 import BrandsCars from "@/components/home/banners/brandsCars/brandsCars";
 import Filters from "@/components/catalogo/filterSearch/filterSearch";
 import { CardRelProductProps } from "@/types/interfaces";
+import { api } from "@/services/api";
 
 
 export default function Home() {
   const router = useRouter();
-
-  useEffect(() => {
-    document.body.className = "bg-white"; // Cambia el fondo de la página
-  }, []);
-
-
   const [productos, setProductos] = useState<CardRelProductProps[]>([]);
   const [catalogo, setCatalogo] = useState<CardRelProductProps[]>([]);
 
   useEffect(() => {
-
-    fetchProductos();
-    fetchCatalogo();
+    const fetchData = async () => {
+      const resultProducts = await api.products.getAll();
+      const resultCatalog = await api.catalog.getAll();
+      setProductos(resultProducts);
+      setCatalogo(resultCatalog);
+    };
+    fetchData();
   }, []);
 
-  const fetchProductos = async () => {
-    try {
-      const response = await fetch("../api/productos"); // 🔥 Llamada a la API
-      const data = await response.json();
-      setProductos(data); // Guardamos los productos en el estado
-    } catch (error) {
-      console.error("Error cargando los productos:", error);
-    }
-  };
-  const fetchCatalogo = async () => {
-    try {
-      const response = await fetch("../api/catalogo"); // 🔥 Llamada a la API
-      const data = await response.json();
-      setCatalogo(data); // Guardamos los productos en el estado
-    } catch (error) {
-      console.error("Error cargando los productos:", error);
-    }
-  };
-
+  //  esto debe ser dinamico o no ?  creo que se va a manejar en un dashboard.
   const bannerImages = [
     { src: "/banners/bannerhome.png", alt: "Imagen 1" },
     { src: "/banners/bannerhome.png", alt: "Imagen 2" },

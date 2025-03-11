@@ -545,15 +545,17 @@ const LoginModal = ({ isOpen, onClose })=>{
     }, [
         isOpen
     ]);
-    const handleLogin = (e)=>{
+    const handleLogin = async (e)=>{
         e.preventDefault();
         // Simulación de datos (esto normalmente vendría de un backend)
         const fakeUser = {
             id: "123",
             name: "Juan Pérez",
-            email,
+            email: email,
             token: "fake-token-123"
         };
+        // const result = await api.user.login(fakeUser)
+        // dispatch(login(result)); 
         dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$store$2f$slices$2f$authSlice$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["login"])(fakeUser)); // ✅ Guardar usuario en Redux
         onClose(); // ✅ Cerrar modal después de iniciar sesión
     };
@@ -570,12 +572,12 @@ const LoginModal = ({ isOpen, onClose })=>{
                         size: 24
                     }, void 0, false, {
                         fileName: "[project]/src/components/auth/loginModal.tsx",
-                        lineNumber: 45,
+                        lineNumber: 49,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/components/auth/loginModal.tsx",
-                    lineNumber: 44,
+                    lineNumber: 48,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -583,7 +585,7 @@ const LoginModal = ({ isOpen, onClose })=>{
                     children: "Iniciar sesión"
                 }, void 0, false, {
                     fileName: "[project]/src/components/auth/loginModal.tsx",
-                    lineNumber: 48,
+                    lineNumber: 52,
                     columnNumber: 9
                 }, this),
                 error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -591,7 +593,7 @@ const LoginModal = ({ isOpen, onClose })=>{
                     children: error
                 }, void 0, false, {
                     fileName: "[project]/src/components/auth/loginModal.tsx",
-                    lineNumber: 51,
+                    lineNumber: 55,
                     columnNumber: 19
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -610,13 +612,13 @@ const LoginModal = ({ isOpen, onClose })=>{
                                             children: "*"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/auth/loginModal.tsx",
-                                            lineNumber: 56,
+                                            lineNumber: 60,
                                             columnNumber: 54
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/auth/loginModal.tsx",
-                                    lineNumber: 55,
+                                    lineNumber: 59,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -627,13 +629,13 @@ const LoginModal = ({ isOpen, onClose })=>{
                                     className: "w-full p-2 border border-gray-300 rounded-md mt-1 focus:outline-blue-500"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/auth/loginModal.tsx",
-                                    lineNumber: 58,
+                                    lineNumber: 62,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/auth/loginModal.tsx",
-                            lineNumber: 54,
+                            lineNumber: 58,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -644,7 +646,7 @@ const LoginModal = ({ isOpen, onClose })=>{
                                     children: "Contraseña"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/auth/loginModal.tsx",
-                                    lineNumber: 68,
+                                    lineNumber: 72,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -655,13 +657,13 @@ const LoginModal = ({ isOpen, onClose })=>{
                                     className: "w-full p-2 border border-gray-300 rounded-md mt-1 focus:outline-blue-500"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/auth/loginModal.tsx",
-                                    lineNumber: 69,
+                                    lineNumber: 73,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/auth/loginModal.tsx",
-                            lineNumber: 67,
+                            lineNumber: 71,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -672,12 +674,12 @@ const LoginModal = ({ isOpen, onClose })=>{
                                 children: "¿Olvidaste tu contraseña?"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/auth/loginModal.tsx",
-                                lineNumber: 79,
+                                lineNumber: 83,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/auth/loginModal.tsx",
-                            lineNumber: 78,
+                            lineNumber: 82,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -686,13 +688,13 @@ const LoginModal = ({ isOpen, onClose })=>{
                             children: "Ingresar"
                         }, void 0, false, {
                             fileName: "[project]/src/components/auth/loginModal.tsx",
-                            lineNumber: 82,
+                            lineNumber: 86,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/auth/loginModal.tsx",
-                    lineNumber: 53,
+                    lineNumber: 57,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -705,24 +707,24 @@ const LoginModal = ({ isOpen, onClose })=>{
                             children: "Regístrate aquí"
                         }, void 0, false, {
                             fileName: "[project]/src/components/auth/loginModal.tsx",
-                            lineNumber: 88,
+                            lineNumber: 92,
                             columnNumber: 30
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/auth/loginModal.tsx",
-                    lineNumber: 87,
+                    lineNumber: 91,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/components/auth/loginModal.tsx",
-            lineNumber: 42,
+            lineNumber: 46,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/components/auth/loginModal.tsx",
-        lineNumber: 41,
+        lineNumber: 45,
         columnNumber: 5
     }, this);
 };

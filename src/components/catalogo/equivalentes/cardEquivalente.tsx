@@ -1,21 +1,14 @@
 "use client";
 
-import { useDispatch, useSelector } from "react-redux";
-import { selectProduct } from "@/store/slices/productSlice";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { useState, useEffect } from "react";
 import { FaShoppingCart } from "react-icons/fa"; // Importa el ícono del carrito desde React Icons
-import { selectAuth } from "@/store/slices/authSlice";
 import { Eye } from "lucide-react";
-import { RootState } from "@/store/store";
-import { setCategoria, setLinea, setMarca, setProducto } from '@/store/slices/navigationSlice';
+import { selectAuth } from "@/store/slices/authSlice";
+import { useSelector } from "react-redux";
 
-
-interface ProductEquivalentTestProps {
-    level: string;
-    text:string;
-    id: string;
+interface ProductEquivalentProps {
+    productos: Producto[]
+    handleViewMore: (text: string) => void;
   }
 interface Repuesto {
     logo: string;
@@ -27,155 +20,24 @@ interface Repuesto {
 interface Producto {
     id: string;
     imageSrc: string;
-    modelo: "Audi A1 2010-2015",
+    modelo: string;
     marca: string;
     nombre: string;
-    repuestos: Repuesto[];
     logoImage: string;
+    repuestos: Repuesto[];
 }
 
 
-export default function ProductEquivalentTest({ level, text, id }: ProductEquivalentTestProps) {
-
-    const router = useRouter();
-    const dispatch = useDispatch();
-    // Obtener el estado actual desde Redux
-    const currentCategory = useSelector((state: RootState) => state.navigation.categoria.name);
-    const currentBrand = useSelector((state: RootState) => state.navigation.marca.name);
-    const currentLine = useSelector((state: RootState) => state.navigation.linea.name);
-    const currentProduct = useSelector((state: RootState) => state.navigation.producto.name);
-    const [pendingNavigation, setPendingNavigation] = useState(false);
-    const [productos, setProductos1] = useState<Producto[]>([]);
-    const { isAuthenticated } = useSelector(selectAuth);
-
-    useEffect(() => {
-        setProductos1([
-            {
-                id: "1",
-                imageSrc: "/articulos/compresor3.png",
-                modelo: "Audi A1 2010-2015",
-                marca: "Audi",
-                nombre: "Compresor",
-                logoImage: "/logos/Autofrio.png",
-                repuestos: [
-                    { logo: "/logos/Autofrio.png", nombre: "SANDEN", price: "$3.000.000", codigo: "CP5001" },
-                    { logo: "/logos/sanden.png", nombre: "ACTECmax", price: "40.000.000", codigo: "CP5001" },
-                    { logo: "/logos/denso.png", nombre: "DENSO", price: "$50.000", codigo: "CP5001" },
-                    { logo: "/logos/Autofrio.png", nombre: "DENSO", price: "$60.000", codigo: "CP5001" },
-                    { logo: "/logos/denso.png", nombre: "DENSO", price: "$30.000", codigo: "CP5001" },
-                    { logo: "/logos/Autofrio.png", nombre: "DENSO", price: "$30.000", codigo: "CP5001" },
-                    { logo: "/logos/denso.png", nombre: "DENSO", price: "$30.000", codigo: "CP5001" },
-                ],
-            },
-            {
-                id: "2",
-                imageSrc: "/articulos/compresor3.png",
-                modelo: "Audi A1 2010-2015",
-                marca: "Toyota",
-                nombre: "Evaporador",
-                logoImage: "/logos/sanden.png",
-                repuestos: [
-                    { logo: "/logos/sanden.png", nombre: "DENSO", price: "$354.000", codigo: "CP5001" },
-                    { logo: "/logos/Autofrio.png", nombre: "DENSO", price: "$470.000", codigo: "CP5001" },
-                    { logo: "/logos/denso.png", nombre: "SANDEN", price: "$950.000", codigo: "CP5001" },
-                ],
-            },
-            {
-                id: "3",
-                imageSrc: "/articulos/compresor3.png",
-                modelo: "Audi A1 2010-2015",
-                marca: "Honda",
-                nombre: "Condensador",
-                logoImage: "/logos/Autofrio.png",
-                repuestos: [
-                    { logo: "/logos/Autofrio.png", nombre: "SANDEN", price: "$356.000", codigo: "CP5001" },
-                    { logo: "/logos/sanden.png", nombre: "ACTECmax", price: "440.000", codigo: "CP5001" },
-                    { logo: "/logos/denso.png", nombre: "DENSO", price: "$650.000", codigo: "CP5001" },
-                    { logo: "/logos/Autofrio.png", nombre: "DENSO", price: "$795.000", codigo: "CP5001" },
-                    { logo: "/logos/denso.png", nombre: "DENSO", price: "$30.000", codigo: "CP5001" },
-                    { logo: "/logos/Autofrio.png", nombre: "DENSO", price: "$30.000", codigo: "CP5001" },
-                    { logo: "/logos/denso.png", nombre: "DENSO", price: "$30.000", codigo: "CP5001" },
-                ],
-            },
-            {
-                id: "4",
-                imageSrc: "/articulos/compresor3.png",
-                modelo: "Audi A1 2010-2015",
-                marca: "Honda",
-                nombre: "Condensador",
-                logoImage: "/logos/Autofrio.png",
-                repuestos: [
-                    { logo: "/logos/Autofrio.png", nombre: "SANDEN", price: "$3.000.000", codigo: "CP5001" },
-                    { logo: "/logos/sanden.png", nombre: "ACTECmax", price: "40.000.000", codigo: "CP5001" },
-                    { logo: "/logos/denso.png", nombre: "DENSO", price: "$50.000", codigo: "CP5001" },
-                    { logo: "/logos/Autofrio.png", nombre: "DENSO", price: "$60.000", codigo: "CP5001" },
-                    { logo: "/logos/denso.png", nombre: "DENSO", price: "$30.000", codigo: "CP5001" },
-                    { logo: "/logos/Autofrio.png", nombre: "DENSO", price: "$30.000", codigo: "CP5001" },
-                    { logo: "/logos/denso.png", nombre: "DENSO", price: "$30.000", codigo: "CP5001" },
-                ],
-            },
-        ]);
-    }, []);
-
-    const handleViewMore = (text:string) => {
-        debugger
-        console.log("Antes de dispatch:", { currentCategory, currentBrand, currentLine, currentProduct ,level });
-        // 🔥 Normalizar `text` quitando espacios o reemplazándolos por `-`
-      const cleanText = text.trim().replace(/\s+/g, '-');
-      // 🔥 Identificar en qué nivel estamos y despachar la acción correcta
-      if (level === "categoria") {
-        dispatch(setCategoria({ id, name: cleanText }));
-      } else if (level === "marca") {
-        dispatch(setMarca({ id, name: cleanText }));
-      } else if (level === "linea") {
-        dispatch(setLinea({ id, name: cleanText }));
-      } else if (level === "producto") {
-        dispatch(setProducto({ id, name: cleanText }));
-      }
+export default function ProductEquivalent({  productos, handleViewMore }: ProductEquivalentProps) {
   
-      setPendingNavigation(true); // Marca que debe hacer la navegación
-    };
-
-
-    const handleViewMore2 = (id: string) => {
-        console.log("Ver más", id);
-        dispatch(selectProduct(id)); // Guardar producto en Redux
-        router.push("/list"); // Navegar a la página del producto
-    };
-    
-    useEffect(() => {
-      console.log("Antes de dispatch:", { currentCategory, currentBrand, currentLine, currentProduct ,level });
-
-        if (pendingNavigation) {
-          let newPath = `/${text.trim().replace(/\s+/g, '-')}`; // Normaliza `text`
-    
-          if (currentCategory && level === "marca") {
-            newPath = `/${currentCategory}/${text.trim().replace(/\s+/g, '-')}`;
-          }
-          if (currentCategory && currentBrand && level === "linea") {
-            newPath = `/${currentCategory}/${currentBrand}/${text.trim().replace(/\s+/g, '-')}`;
-          }
-          if (currentCategory && currentBrand && level === "producto") {
-            newPath = `/${currentCategory}/${currentBrand}/${currentProduct}/${text.trim().replace(/\s+/g, '-')}`;
-          }
-          console.log("Redirigiendo a:", newPath);
-          router.push(newPath);
-          setPendingNavigation(false); // Reinicia el estado de navegación
-        }
-      }, [currentCategory, currentBrand, currentLine, pendingNavigation, text, router, level]);
-    
-
-      
-
- 
-
+    const { isAuthenticated } = useSelector(selectAuth);
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
             {productos.map((producto) => (
                 <div key={producto.id} className="  border border-grey-100  bg-white rounded-lg shadow-lg overflow-hidden p-4 flex flex-col">
 
-                    <p className="text-sm mt-[0] pt-[0] mt-4 text-center hover:cursor-pointer">
+                    <p className="text-sm  pt-[0] mt-4 text-center hover:cursor-pointer">
                         {producto.nombre}
                     </p>
                     <p className="text-lg font-semibold mt-0 text-center hover:cursor-pointer">

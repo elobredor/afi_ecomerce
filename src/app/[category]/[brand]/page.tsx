@@ -2,23 +2,22 @@
 
 import { useState, useEffect } from 'react';
 import styles from '../../../components/catalogo/catalogoPage.module.css';
-import Banner from '@/components/catalogo/bannerCatalogo';
 import CardCatalogo from '@/components/catalogo/cardCatalogo';
 import Breadcrumb from '@/components/ui/Breadcrums/Breadcrums';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 
-const ModelosPage = () => {
+const MarcasPage = () => {
   // 🔹 Obtener `categoriaId` y `marcaId` desde Redux
   const categoriaId = useSelector((state: RootState) => state.navigation.categoria.id) || undefined;
   const marcaId = useSelector((state: RootState) => state.navigation.marca.id) || '';
 
-  // 🔹 Estado para guardar los modelos
-  const [modelos, setModelos] = useState<{ id: string; imageSrc: string; text: string }[]>([]);
+  // 🔹 Estado para guardar los marcas
+  const [marcas, setMarcas] = useState<{ id: string; imageSrc: string; text: string }[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // 🔹 Función para obtener los modelos desde la API
-  const fetchModelos = async (idmarca: string, idcategoria: string) => {
+  // 🔹 Función para obtener los marcas desde la API
+  const fetchMarcas = async (idmarca: string, idcategoria: string) => {
     try {
       const response = await fetch(`../../../api/modelo?idmarca=${idmarca}&idcategoria=${idcategoria}`);
       if (!response.ok) throw new Error("Error en la API");
@@ -28,11 +27,11 @@ const ModelosPage = () => {
       );
       
       const data = await response.json();
-      console.log("Modelos obtenidos:", data);
-      setModelos(data); // 🔥 Guarda los modelos en el estado
+
+      setMarcas(data); // 🔥 Guarda los marcas en el estado
     } catch (error) {
-      console.error("Error obteniendo modelos:", error);
-      setModelos([]); // 🔥 Si hay error, deja el estado vacío
+      console.error("Error obteniendo marcas:", error);
+      setMarcas([]); // 🔥 Si hay error, deja el estado vacío
     } finally {
       setLoading(false); // 🔥 Detener la carga
     }
@@ -42,42 +41,39 @@ const ModelosPage = () => {
   useEffect(() => {
     if (categoriaId && marcaId) {
       setLoading(true);
-      fetchModelos(marcaId, categoriaId);
+      fetchMarcas(marcaId, categoriaId);
     }
   }, [categoriaId, marcaId]);
 
   return (
     <div>
-      {/* 📌 Banner Principal */}
-      {/* <Banner imageSrc="/banners/catalogo.png" altText="Banner de catálogo" mt="-10" /> */}
-
-      {/* 📌 Contenedor Principal */}
+    
       <div className={styles.catalogContainer}>
-        {/* 📌 Contenedor de Breadcrumb alineado con las tarjetas */}
+ 
         <div className={styles.breadcrumbWrapper}>
           <Breadcrumb />
         </div>
 
-        {/* 📌 Contenedor de Tarjetas */}
+ 
         {loading ? (
-          <p className="text-center text-gray-500">Cargando modelos...</p>
+          <p className="text-center text-gray-500">Cargando marcas...</p>
         ) : (
           <div className={styles.gridContainer}>
-            {modelos.length > 0 ? (
-              modelos.map((modelo) => (
+            {marcas.length > 0 ? (
+              marcas.map((marca) => (
                 <CardCatalogo
-                  key={modelo.id}
-                  imageSrc={modelo.imageSrc}
-                  text={modelo.text}
-                  id={modelo.id}
+                  key={marca.id}
+                  imageSrc={marca.imageSrc}
+                  text={marca.text}
+                  id={marca.id}
                   categoria={categoriaId}
                   marca={marcaId }
-                  modelo={modelo.id}
+                  modelo={marca.id}
                   level="linea"
                 />
               ))
             ) : (
-              <p className="text-center text-gray-500">No hay modelos disponibles</p>
+              <p className="text-center text-gray-500">No hay marcas disponibles</p>
             )}
           </div>
         )}
@@ -86,4 +82,4 @@ const ModelosPage = () => {
   );
 };
 
-export default ModelosPage;
+export default MarcasPage;

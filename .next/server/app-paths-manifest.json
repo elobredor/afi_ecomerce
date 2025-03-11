@@ -1,14 +1,8 @@
 {
-  "/page": "app/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/api/productos/route": "app/api/productos/route.js",
-  "/api/catalogo/route": "app/api/catalogo/route.js",
-  "/catalogo/page": "app/catalogo/page.js",
-  "/nosotros/page": "app/nosotros/page.js",
   "/[category]/page": "app/[category]/page.js",
   "/api/marcas/route": "app/api/marcas/route.js",
-  "/[category]/[brand]/page": "app/[category]/[brand]/page.js",
-  "/api/modelo/route": "app/api/modelo/route.js",
-  "/puntos-venta/page": "app/puntos-venta/page.js",
-  "/contacto/page": "app/contacto/page.js"
+  "/page": "app/page.js",
+  "/catalogo/page": "app/catalogo/page.js",
+  "/nosotros/page": "app/nosotros/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js"
 }

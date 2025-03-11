@@ -5,9 +5,10 @@ import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, Search } from "lucide-react";
 import SlideCardsBlank from "@/components/catalogo/sliderCards/sliderCardsBlank";
 import { selectAuth } from "@/store/slices/authSlice";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import SkeletonSwiper from "@/components/catalogo/sliderCards/skeletonSwiper";
 import { CardRelProductProps } from "@/types/interfaces";
+import { addToCart } from "@/store/slices/cartSlice";
 
 
 const ProductDetail = () => {
@@ -26,6 +27,8 @@ const ProductDetail = () => {
 
     const [loading, setLoading] = useState(true);
 
+
+    const dispatch = useDispatch()
     useEffect(() => {
         setIsClient(true);
     }, []);
@@ -51,7 +54,10 @@ const ProductDetail = () => {
         fetchProductos();
     }, []);
 
-    // Mostrar mas
+    const handleAddToCart = (product) => {
+        dispatch(addToCart({ ...product, quantity }));
+    }
+    
 
 
 
@@ -199,13 +205,14 @@ const ProductDetail = () => {
                         {/* Botones de acción */}
                         <div className="mt-4 flex flex-col gap-2">
                             {/* 🔹 Botón de "Agregar al carrito" ocupa toda la fila */}
-                            {isAuthenticated ? <button className="bg-primary text-white py-2 rounded-full font-bold hover:bg-blue-700 transition w-full text-[12px] py-3">
+                            {isAuthenticated ? <button onClick={()=>console.log('agergajad')
+                            } className="bg-primary text-white py-2 rounded-full font-bold hover:bg-blue-700 transition w-full text-[12px] py-3">
                                 Agregar al carrito
                             </button> : null
                             }
                             {/* 🔹 Contenedor para los dos botones en la misma fila */}
                             <div className="flex gap-2">
-                                {isAuthenticated ? <button className="border border-primary text-primary py-2 rounded-full font-bold hover:bg-primary transition w-1/2 text-[12px] py-3  hover:text-white">
+                                {isAuthenticated ? <button onClick={()=>handleAddToCart()} className="border border-primary text-primary py-2 rounded-full font-bold hover:bg-primary transition w-1/2 text-[12px] py-3  hover:text-white">
                                     Guardar en favoritos
                                 </button> : null}
                                 <button className="border border-primary text-primary py-2 rounded-full font-bold hover:bg-primary hover:text-white transition w-1/2 text-[12px] py-3">
@@ -252,18 +259,18 @@ const ProductDetail = () => {
                     </p>
                 </div>
             </div>
-            <div className="max-w-5xl mx-auto bg-white shadow-md rounded-md p-1 m-5">
+            {/* <div className="max-w-5xl mx-auto bg-white shadow-md rounded-md p-1 m-5">
                 {isClient && !loading && productos.length > 0 ?
                     <SlideCardsBlank productos={productos} title={"PRODUCTOS RELACIONADOS"} subtitle={""} />
                    : <SkeletonSwiper />
                 }
-            </div>
-          <div className="max-w-5xl mx-auto bg-white shadow-md rounded-md p-1 m-5">
+            </div> */}
+          {/* <div className="max-w-5xl mx-auto bg-white shadow-md rounded-md p-1 m-5">
                 {isClient && !loading && productos.length > 0 ?
                     <SlideCardsBlank productos={productos} title={"TE PUEDE INTERESAR"} subtitle={""} />
                     : <SkeletonSwiper />
                 }
-            </div>
+            </div> */}
         </div>
 
 

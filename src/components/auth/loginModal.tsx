@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { login } from "@/store/slices/authSlice";
+import { api } from "@/services/api";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -20,16 +21,19 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
     setError(""); // Limpiar error al abrir el modal
   }, [isOpen]);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // Simulación de datos (esto normalmente vendría de un backend)
     const fakeUser = {
       id: "123",
       name: "Juan Pérez",
-      email,
+      email: email,
       token: "fake-token-123",
     };
+    
+    // const result = await api.user.login(fakeUser)
+    // dispatch(login(result)); 
 
     dispatch(login(fakeUser)); // ✅ Guardar usuario en Redux
     onClose(); // ✅ Cerrar modal después de iniciar sesión

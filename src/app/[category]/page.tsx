@@ -67,8 +67,8 @@ const ModelosPage = () => {
               modelos.map((modelo) => (
                 <CardCatalogo
                   key={modelo.id}
-                  imageSrc={modelo.imageSrc}
-                  text={modelo.text}
+                  imageSrc={modelo.imageSrc} 
+                  text={modelo.text}      // supongo que esto va a cambiar como el resto de propiedades pero ya desde esta perspectiva general será más facil 
                   id={modelo.id}
                   categoria={categoriaId}
                   marca=""
