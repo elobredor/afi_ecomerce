@@ -28,7 +28,7 @@ import { api } from "@/services/api";
 export default function Home() {
   const router = useRouter();
   // const [productos, setProductos] = useState<CardRelProductProps[]>([]);
-  const [categories, setCategories] = useState<CardRelProductProps[]>([]); // hacer un fetch con el insomnia y ver lo que de devuelve este servicio en custion
+  const [categories, setCategories] = useState<CardRelProductProps[] | null>(null); // hacer un fetch con el insomnia y ver lo que de devuelve este servicio en custion
 
   useEffect(() => {
     const fetchData = async () => {
@@ -86,9 +86,9 @@ export default function Home() {
         {/*Categoría DESTACADAS */}
           <div className={styles.gridContainer}>
 
-          {categories.length > 0 && (
+  {categories.length > 0 && (
   <div className={styles.gridContainer}>
-    {categories.map((catalogo) => (
+    {categories?.map((catalogo) => (
       <CardCatalogo
         key={catalogo.id}
         imageSrc={catalogo.imageSrc}
