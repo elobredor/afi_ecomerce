@@ -9,6 +9,8 @@ export const productService = {
 		);
 		return response?.data?.data;
 	},
+
+
 	// getProductById: async (id: string) => {
 	// 	const response = await axiosInstance.get(`/producto/get/${id}`);
 	// 	return response?.data?.data;

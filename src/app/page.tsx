@@ -20,17 +20,23 @@ import { CardRelProductProps } from "@/types/interfaces";
 import { api } from "@/services/api";
 
 
+// 1. comprobar que devuelve products.getAll 
+// 2. corregir el modelo o interface en cuestion , importante recibir nombre y logo 
+// 3. buscar manera de que los select reciban esto como opciones
+// 4. manera de ejecutar ese filtro 
+// 5. 
+
 export default function Home() {
   const router = useRouter();
   const [productos, setProductos] = useState<CardRelProductProps[]>([]);
-  const [catalogo, setCatalogo] = useState<CardRelProductProps[]>([]);
+  const [categories, setCategories] = useState<CardRelProductProps[]>([]); // hacer un fetch con el insomnia y ver lo que de devuelve este servicio en custion
 
   useEffect(() => {
     const fetchData = async () => {
-      const resultProducts = await api.products.getAll();
-      const resultCatalog = await api.catalog.getAll();
+      const resultProducts = await api.products.getAll(); 
+      const resultCategories = await api.categories.getAll();
       setProductos(resultProducts);
-      setCatalogo(resultCatalog);
+      setCategories(resultCategories);
     };
     fetchData();
   }, []);
@@ -62,26 +68,26 @@ export default function Home() {
       <div className="mt-[4rem] mb-[1rem]">
 
         {/* 🔹 Título */}
-        <TitlesBiColor title={"CATEGORIAS"} subtitle={"DESTACADAS"} text="center" />
+        <TitlesBiColor title={"CATEGORÍAS"} subtitle={"DESTACADAS"} text="center" />
 
 
         <div className="mt-[1rem] mb-[1rem]">
         {/* FIltros Dinamicos */}
           <Filters filters={filtersData} onFilterChange={handleFilterChange} onSearch={() => {}} />
         </div>
+        {/*Categoría DESTACADAS */}
         <div className={styles.gridContainer}>
-          {catalogo.slice(0, 8).map((catalogo: { id: string; imageSrc: string; text: string }) => (
+
+          {categories.map((catalogo: { id: string; imageSrc: string; text: string }) => (
             <CardCatalogo
               key={catalogo.id}
               imageSrc={catalogo.imageSrc}
               text={catalogo.text}
               id={catalogo.id}
-              categoria={catalogo.id}
-              marca=""
-              modelo=""
               level="categoria"
             />
           ))}
+
         </div>
         {/* 🔹 Botón "Ver Más" centrado */}
         <div className="flex justify-center mt-5">

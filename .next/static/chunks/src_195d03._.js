@@ -36,7 +36,7 @@ var _s = __turbopack_refresh__.signature();
 ;
 ;
 ;
-const CardCatalogo = ({ imageSrc, text, id, categoria, marca, modelo, producto, level })=>{
+const CardCatalogo = ({ imageSrc, text, id, level })=>{
     _s();
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
     const dispatch = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$react$2d$redux$40$9$2e$2$2e$0_$40$types$2b$react$40$18$2e$2$2e$22_react$40$19$2e$0$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useDispatch"])();
@@ -346,43 +346,42 @@ var _s = __turbopack_refresh__.signature();
 ;
 ;
 ;
-const ModelosPage = ()=>{
+const MarcasPage = ()=>{
     _s();
     // 🔹 Obtener `categoriaId` y `marcaId` desde Redux
     const categoriaId = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$react$2d$redux$40$9$2e$2$2e$0_$40$types$2b$react$40$18$2e$2$2e$22_react$40$19$2e$0$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSelector"])({
-        "ModelosPage.useSelector": (state)=>state.navigation.categoria.id
-    }["ModelosPage.useSelector"]) || undefined;
+        "MarcasPage.useSelector": (state)=>state.navigation.categoria.id
+    }["MarcasPage.useSelector"]) || undefined;
     const marcaId = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$react$2d$redux$40$9$2e$2$2e$0_$40$types$2b$react$40$18$2e$2$2e$22_react$40$19$2e$0$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSelector"])({
-        "ModelosPage.useSelector": (state)=>state.navigation.marca.id
-    }["ModelosPage.useSelector"]) || '';
-    // 🔹 Estado para guardar los modelos
-    const [modelos, setModelos] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
+        "MarcasPage.useSelector": (state)=>state.navigation.marca.id
+    }["MarcasPage.useSelector"]) || '';
+    // 🔹 Estado para guardar los marcas
+    const [marcas, setMarcas] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
-    // 🔹 Función para obtener los modelos desde la API
-    const fetchModelos = async (idmarca, idcategoria)=>{
+    // 🔹 Función para obtener los marcas desde la API
+    const fetchMarcas = async (idmarca, idcategoria)=>{
         try {
             const response = await fetch(`../../../api/modelo?idmarca=${idmarca}&idcategoria=${idcategoria}`);
             if (!response.ok) throw new Error("Error en la API");
             console.log(marcaId, categoriaId);
             const data = await response.json();
-            console.log("Modelos obtenidos:", data);
-            setModelos(data); // 🔥 Guarda los modelos en el estado
+            setMarcas(data); // 🔥 Guarda los marcas en el estado
         } catch (error) {
-            console.error("Error obteniendo modelos:", error);
-            setModelos([]); // 🔥 Si hay error, deja el estado vacío
+            console.error("Error obteniendo marcas:", error);
+            setMarcas([]); // 🔥 Si hay error, deja el estado vacío
         } finally{
             setLoading(false); // 🔥 Detener la carga
         }
     };
     // 🔹 Llamar API cuando `categoriaId` o `marcaId` cambien
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "ModelosPage.useEffect": ()=>{
+        "MarcasPage.useEffect": ()=>{
             if (categoriaId && marcaId) {
                 setLoading(true);
-                fetchModelos(marcaId, categoriaId);
+                fetchMarcas(marcaId, categoriaId);
             }
         }
-    }["ModelosPage.useEffect"], [
+    }["MarcasPage.useEffect"], [
         categoriaId,
         marcaId
     ]);
@@ -394,70 +393,70 @@ const ModelosPage = ()=>{
                     className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$catalogo$2f$catalogoPage$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].breadcrumbWrapper,
                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$Breadcrums$2f$Breadcrums$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                         fileName: "[project]/src/app/[category]/[brand]/page.tsx",
-                        lineNumber: 58,
+                        lineNumber: 54,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/app/[category]/[brand]/page.tsx",
-                    lineNumber: 57,
+                    lineNumber: 53,
                     columnNumber: 9
                 }, this),
                 loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                     className: "text-center text-gray-500",
-                    children: "Cargando modelos..."
+                    children: "Cargando marcas..."
                 }, void 0, false, {
                     fileName: "[project]/src/app/[category]/[brand]/page.tsx",
-                    lineNumber: 63,
+                    lineNumber: 59,
                     columnNumber: 11
                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$catalogo$2f$catalogoPage$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].gridContainer,
-                    children: modelos.length > 0 ? modelos.map((modelo)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$catalogo$2f$cardCatalogo$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                            imageSrc: modelo.imageSrc,
-                            text: modelo.text,
-                            id: modelo.id,
+                    children: marcas.length > 0 ? marcas.map((marca)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$catalogo$2f$cardCatalogo$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                            imageSrc: marca.imageSrc,
+                            text: marca.text,
+                            id: marca.id,
                             categoria: categoriaId,
                             marca: marcaId,
-                            modelo: modelo.id,
+                            modelo: marca.id,
                             level: "linea"
-                        }, modelo.id, false, {
+                        }, marca.id, false, {
                             fileName: "[project]/src/app/[category]/[brand]/page.tsx",
-                            lineNumber: 68,
+                            lineNumber: 64,
                             columnNumber: 17
                         }, this)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         className: "text-center text-gray-500",
-                        children: "No hay modelos disponibles"
+                        children: "No hay marcas disponibles"
                     }, void 0, false, {
                         fileName: "[project]/src/app/[category]/[brand]/page.tsx",
-                        lineNumber: 80,
+                        lineNumber: 76,
                         columnNumber: 15
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/app/[category]/[brand]/page.tsx",
-                    lineNumber: 65,
+                    lineNumber: 61,
                     columnNumber: 11
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/app/[category]/[brand]/page.tsx",
-            lineNumber: 55,
+            lineNumber: 51,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/app/[category]/[brand]/page.tsx",
-        lineNumber: 50,
+        lineNumber: 49,
         columnNumber: 5
     }, this);
 };
-_s(ModelosPage, "ipfq2o/rH7esl7KnAOO0vc5ePbQ=", false, function() {
+_s(MarcasPage, "Zh2ZH+vAO98DuFkngj6b5mqKxEs=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$react$2d$redux$40$9$2e$2$2e$0_$40$types$2b$react$40$18$2e$2$2e$22_react$40$19$2e$0$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSelector"],
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$react$2d$redux$40$9$2e$2$2e$0_$40$types$2b$react$40$18$2e$2$2e$22_react$40$19$2e$0$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSelector"]
     ];
 });
-_c = ModelosPage;
-const __TURBOPACK__default__export__ = ModelosPage;
+_c = MarcasPage;
+const __TURBOPACK__default__export__ = MarcasPage;
 var _c;
-__turbopack_refresh__.register(_c, "ModelosPage");
+__turbopack_refresh__.register(_c, "MarcasPage");
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_refresh__.registerExports(module, globalThis.$RefreshHelpers$);
 }

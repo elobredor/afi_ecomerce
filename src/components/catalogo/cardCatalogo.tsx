@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 
-const CardCatalogo: React.FC<CardProps> = ({ imageSrc, text, id, categoria, marca, modelo, producto, level }) => {
+const CardCatalogo: React.FC<CardProps> = ({ imageSrc, text, id, level }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   // Obtener el estado actual desde Redux

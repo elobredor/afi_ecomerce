@@ -1,8 +1,4 @@
 {
-  "/[category]/page": "app/[category]/page.js",
-  "/api/marcas/route": "app/api/marcas/route.js",
   "/page": "app/page.js",
-  "/catalogo/page": "app/catalogo/page.js",
-  "/nosotros/page": "app/nosotros/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js"
 }

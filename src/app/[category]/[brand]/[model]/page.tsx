@@ -1,14 +1,13 @@
+"use client"
 import styles from '@/components/catalogo/catalogoPage.module.css';
 import Breadcrumb from '@/components/ui/Breadcrums/Breadcrums';
 import { modelos } from '@/data/modelos';
 import ProductEquivalent from '@/components/catalogo/equivalentes/cardEquivalente';
-import useFetchData from '@/hooks/useFetchData';
-import { api } from '@/services/api';
 import { useDispatch, useSelector } from 'react-redux';
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { RootState } from '@/store/store';
 import { setCategoria, setLinea, setMarca, setProducto } from '@/store/slices/navigationSlice';
+import { useRouter } from 'next/navigation';
 
 
 const ModelPage = () => {
