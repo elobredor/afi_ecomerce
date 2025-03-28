@@ -13,7 +13,7 @@ interface FiltersProps {
         options: Option[];
     }[];
     onFilterChange: (selectedFilters: Record<string, Option | null>) => void;
-    onSearch: () => void;
+    onSearch: (selectedFilters:any) => void;
 }
 
 const Filters: React.FC<FiltersProps> = ({ filters, onFilterChange, onSearch }) => {
@@ -41,7 +41,7 @@ const Filters: React.FC<FiltersProps> = ({ filters, onFilterChange, onSearch }) 
             {/* Botón de búsqueda al final */}
             <div className="w-full flex items-end">
                 <button 
-                    onClick={onSearch} 
+                    onClick={()=>onSearch(selectedFilters)} 
                     className="bg-primary text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition w-full"
                 >
                     Buscar

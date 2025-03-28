@@ -295,8 +295,10 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$ne
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$catalogo$2f$catalogoPage$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__ = __turbopack_import__("[project]/src/components/catalogo/catalogoPage.module.css [app-client] (css module)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$catalogo$2f$cardCatalogo$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/src/components/catalogo/cardCatalogo.tsx [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$Breadcrums$2f$Breadcrums$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/src/components/ui/Breadcrums/Breadcrums.tsx [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$services$2f$api$2f$index$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/src/services/api/index.ts [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$react$2d$redux$40$9$2e$2$2e$0_$40$types$2b$react$40$18$2e$2$2e$22_react$40$19$2e$0$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/.pnpm/react-redux@9.2.0_@types+react@18.2.22_react@19.0.0_redux@5.0.1/node_modules/react-redux/dist/react-redux.mjs [app-ssr] (ecmascript)");
 "use client";
+;
 ;
 ;
 ;
@@ -313,11 +315,13 @@ const MarcasPage = ()=>{
     // 🔹 Función para obtener los marcas desde la API
     const fetchMarcas = async (idmarca, idcategoria)=>{
         try {
-            const response = await fetch(`../../../api/modelo?idmarca=${idmarca}&idcategoria=${idcategoria}`);
-            if (!response.ok) throw new Error("Error en la API");
-            console.log(marcaId, categoriaId);
-            const data = await response.json();
-            setMarcas(data); // 🔥 Guarda los marcas en el estado
+            const { data } = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$services$2f$api$2f$index$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["api"].line.getAll(idcategoria, idmarca); // 🔥 Llamar a la API para obtener marcas
+            console.log(data, 'desde marcas');
+            setMarcas(data.map((marca)=>({
+                    id: marca.msg_id,
+                    imageSrc: marca.msg_asdfadf || "/placeholder.png",
+                    text: marca.msg_pref || marca.mfa_pref
+                })));
         } catch (error) {
             console.error("Error obteniendo marcas:", error);
             setMarcas([]); // 🔥 Si hay error, deja el estado vacío

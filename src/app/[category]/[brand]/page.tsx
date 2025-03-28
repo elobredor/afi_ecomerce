@@ -6,6 +6,7 @@ import CardCatalogo from '@/components/catalogo/cardCatalogo';
 import Breadcrumb from '@/components/ui/Breadcrums/Breadcrums';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
+import { api } from '@/services/api';
 
 const MarcasPage = () => {
   // 🔹 Obtener `categoriaId` y `marcaId` desde Redux
@@ -19,16 +20,15 @@ const MarcasPage = () => {
   // 🔹 Función para obtener los marcas desde la API
   const fetchMarcas = async (idmarca: string, idcategoria: string) => {
     try {
-      const response = await fetch(`../../../api/modelo?idmarca=${idmarca}&idcategoria=${idcategoria}`);
-      if (!response.ok) throw new Error("Error en la API");
-      console.log(
-        marcaId, 
-        categoriaId
-      );
-      
-      const data = await response.json();
+      const {data} = await api.line.getAll(idcategoria, idmarca ); // 🔥 Llamar a la API para obtener marcas
+console.log(data, 'desde marcas');
 
-      setMarcas(data); // 🔥 Guarda los marcas en el estado
+
+ setMarcas(data.map((marca: any) => ({
+        id: marca.msg_id,
+        imageSrc: marca.msg_asdfadf || "/placeholder.png", // Default image if not provided
+        text: marca.msg_pref || marca.mfa_pref, // Default text if not provided
+      })));
     } catch (error) {
       console.error("Error obteniendo marcas:", error);
       setMarcas([]); // 🔥 Si hay error, deja el estado vacío

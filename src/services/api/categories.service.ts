@@ -1,12 +1,14 @@
 import axiosInstance from "./axios.instance";
 
 export const CategoriesService = {
-	getAll: async () => {
-		const {data} = await axiosInstance.get("/categories/getAll");
+	getAll: async (categoryid:any) => {
+		console.log("me asegur de recibir", categoryid);
+		
+		const {data} = await axiosInstance.post(`/articlesBrand`, {categoryid});
 		return data;
 	},
 	getList: async ()=>{
-		const {data} = await axiosInstance.get("/categories/getAll");
+		const {data} = await axiosInstance.get("/articleCategories");
 		return data;
 	}
 

@@ -7,6 +7,7 @@ import CardCatalogo from '@/components/catalogo/cardCatalogo';
 import Breadcrumb from '@/components/ui/Breadcrums/Breadcrums';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
+import { api } from '@/services/api';
 
 const ModelosPage = () => {
   // 🔹 Obtener `categoriaId` y `marcaId` desde Redux
@@ -18,18 +19,22 @@ const ModelosPage = () => {
   const [loading, setLoading] = useState(true);
 
   // 🔹 Función para obtener los modelos desde la API
-  const fetchModelos = async (idmarca: string, idcategoria: string) => {
+  const fetchModelos = async (idcategoria: string) => {
     try {
-      const response = await fetch(`../../../api/marcas?idcategoria=${idcategoria}`);
-      if (!response.ok) throw new Error("Error en la API");
-      console.log(
-        marcaId, 
-        categoriaId
-      );
+ 
+      const response = await api.categories.getAll(idcategoria)
+   
+
+console.log(response.data, 'desde categoria ');
+
       
-      const data = await response.json();
-      console.log("Modelos obtenidos:", data);
-      setModelos(data); // 🔥 Guarda los modelos en el estado
+    setModelos(response.data.map((modelo: any) => ({
+        id: modelo.mfa_id,
+        imageSrc: modelo.imageSrc || "/placeholder.png", // Default image if not provided
+        text: modelo.mfa_pref || modelo.mfa_pref, // Default text if not provided
+      })
+    ))
+
     } catch (error) {
       console.error("Error obteniendo modelos:", error);
       setModelos([]); // 🔥 Si hay error, deja el estado vacío
@@ -42,9 +47,9 @@ const ModelosPage = () => {
   useEffect(() => {
     if (categoriaId) {
       setLoading(true);
-      fetchModelos(marcaId, categoriaId);
+      fetchModelos(categoriaId);
     }
-  }, [categoriaId, marcaId]);
+  }, [categoriaId]);
 
   return (
     <div>

@@ -5,6 +5,7 @@ import { X } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { login } from "@/store/slices/authSlice";
 import { api } from "@/services/api";
+import { storage } from "@/utils/storage";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -13,8 +14,8 @@ interface LoginModalProps {
 
 const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
   const dispatch = useDispatch(); // ✅ Mover aquí dentro del componente
-  const [email, setEmail] = useState("test@example.com");
-  const [password, setPassword] = useState("123456");
+  const [email, setEmail] = useState("aimitola");
+  const [password, setPassword] = useState("Web2019***");
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -23,20 +24,27 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Simulación de datos (esto normalmente vendría de un backend)
-    const fakeUser = {
-      id: "123",
-      name: "Juan Pérez",
-      email: email,
-      token: "fake-token-123",
-    };
+    try {
+      const {data} = await api.user.login({ email, password });     
+       
+      const format = { 
+        id: data.userAct.pgu_id_usuario,
+        name: data.userAct.pgu_name_user,
+        token: data.accesToken,
+        email: data.userAct.pgu_email,
+      }
+      dispatch(login(format)); 
+      storage.setAuth(data.userAct, data.accessToken);
     
-    // const result = await api.user.login(fakeUser)
-    // dispatch(login(result)); 
-
-    dispatch(login(fakeUser)); // ✅ Guardar usuario en Redux
-    onClose(); // ✅ Cerrar modal después de iniciar sesión
+        // dispatch(login(fakeUser)); // ✅ Guardar usuario en Redux
+        onClose(); // ✅ Cerrar modal después de iniciar sesión
+      
+    } catch (error) {
+      console.log(error, "ERROR EN LOGIN");
+      
+    }
+    
+ 
   };
 
   if (!isOpen) return null;
@@ -60,7 +68,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
               Nombre de usuario o correo electrónico <span className="text-red-500">*</span>
             </label>
             <input
-              type="email"
+              type="text"
               placeholder="ejemplo@gmail.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}

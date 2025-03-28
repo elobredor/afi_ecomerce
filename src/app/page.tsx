@@ -9,7 +9,6 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import '../styles/swiper-custom.css';
-import SliderCards from "@/components/catalogo/sliderCards/sliderCards";
 import TitlesBiColor from "@/components/ui/Titles/TitlesBiColor";
 import CardCatalogo from "@/components/catalogo/cardCatalogo";
 import styles from "../components/catalogo/catalogoPage.module.css";
@@ -28,15 +27,23 @@ import { api } from "@/services/api";
 
 export default function Home() {
   const router = useRouter();
-  const [productos, setProductos] = useState<CardRelProductProps[]>([]);
+  // const [productos, setProductos] = useState<CardRelProductProps[]>([]);
   const [categories, setCategories] = useState<CardRelProductProps[]>([]); // hacer un fetch con el insomnia y ver lo que de devuelve este servicio en custion
 
   useEffect(() => {
     const fetchData = async () => {
-      const resultProducts = await api.products.getAll(); 
-      const resultCategories = await api.categories.getAll();
-      setProductos(resultProducts);
-      setCategories(resultCategories);
+      // const resultProducts = await api.products.getAll(); 
+      const resultCategories = await api.categories.getList();
+      console.log("resultCategories", resultCategories);
+      
+      // setProductos(resultProducts);
+      setCategories(
+        resultCategories.data.map((category: any) => ({
+          id: category.mga_id,
+          imageSrc: category.imageSrc || "/placeholder.png", // Default image if not provided
+          text: category.mga_name,
+        }))
+      );
     };
     fetchData();
   }, []);
@@ -73,22 +80,27 @@ export default function Home() {
 
         <div className="mt-[1rem] mb-[1rem]">
         {/* FIltros Dinamicos */}
-          <Filters filters={filtersData} onFilterChange={handleFilterChange} onSearch={() => {}} />
+          <Filters filters={filtersData} onFilterChange={handleFilterChange} onSearch={(selectedFilters) => {console.log(selectedFilters)
+          }} />
         </div>
         {/*Categoría DESTACADAS */}
-        <div className={styles.gridContainer}>
+          <div className={styles.gridContainer}>
 
-          {categories.map((catalogo: { id: string; imageSrc: string; text: string }) => (
-            <CardCatalogo
-              key={catalogo.id}
-              imageSrc={catalogo.imageSrc}
-              text={catalogo.text}
-              id={catalogo.id}
-              level="categoria"
-            />
-          ))}
-
-        </div>
+          {categories.length > 0 && (
+  <div className={styles.gridContainer}>
+    {categories.map((catalogo) => (
+      <CardCatalogo
+        key={catalogo.id}
+        imageSrc={catalogo.imageSrc}
+        text={catalogo.text}
+        id={catalogo.id}
+        level="categoria"
+      />
+    ))}
+  </div>
+)}
+  
+          </div>
         {/* 🔹 Botón "Ver Más" centrado */}
         <div className="flex justify-center mt-5">
           <button
@@ -104,7 +116,7 @@ export default function Home() {
       {/* 🔹 Banner de marcas */}
       <Banner imageSrc="/banners/Catalogo.png" altText="" mt="50" />
       {/* slide Productos relacionados */}
-      <SliderCards productos={productos} title={"PRODUCTOS"} subtitle={"POPULARES"} />
+      {/* <SliderCards productos={productos} title={"PRODUCTOS"} subtitle={"POPULARES"} /> */}
 
       <BrandsCars />
     </div>

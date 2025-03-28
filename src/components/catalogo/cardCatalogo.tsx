@@ -8,11 +8,9 @@ import { RootState } from '@/store/store';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
-
 const CardCatalogo: React.FC<CardProps> = ({ imageSrc, text, id, level }) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  // Obtener el estado actual desde Redux
   const currentCategory = useSelector((state: RootState) => state.navigation.categoria.name);
   const currentBrand = useSelector((state: RootState) => state.navigation.marca.name);
   const currentLine = useSelector((state: RootState) => state.navigation.linea.name);

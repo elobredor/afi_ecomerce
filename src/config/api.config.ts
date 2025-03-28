@@ -1,5 +1,5 @@
 export const API_CONFIG = {
-	baseURL: process.env.API_URL || "https://jointerp.com:13000/api/v1", // Reemplazar esto por la nueva direccion
+	baseURL: process.env.API_URL || "http://209.97.157.73:12099/api/v1/", // Reemplazar esto por la nueva direccion
 	timeout: 10000,
 	headers: {
 		"Content-Type": "application/json",
