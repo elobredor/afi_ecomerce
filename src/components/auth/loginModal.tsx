@@ -5,95 +5,116 @@ import { X } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { login } from "@/store/slices/authSlice";
 import { api } from "@/services/api";
+import { storage } from "@/utils/storage";
 
 interface LoginModalProps {
-  isOpen: boolean;
-  onClose: () => void;
+	isOpen: boolean;
+	onClose: () => void;
 }
 
 const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
-  const dispatch = useDispatch(); // ✅ Mover aquí dentro del componente
-  const [email, setEmail] = useState("test@example.com");
-  const [password, setPassword] = useState("123456");
-  const [error, setError] = useState("");
+	const dispatch = useDispatch(); // ✅ Mover aquí dentro del componente
+	const [email, setEmail] = useState("aimitola");
+	const [password, setPassword] = useState("Web2019***");
+	const [error, setError] = useState("");
 
-  useEffect(() => {
-    setError(""); // Limpiar error al abrir el modal
-  }, [isOpen]);
+	useEffect(() => {
+		setError(""); // Limpiar error al abrir el modal
+	}, [isOpen]);
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+	const handleLogin = async (e: React.FormEvent) => {
+		e.preventDefault();
 
-    // Simulación de datos (esto normalmente vendría de un backend)
-    const fakeUser = {
-      id: "123",
-      name: "Juan Pérez",
-      email: email,
-      token: "fake-token-123",
-    };
-    
-    // const result = await api.user.login(fakeUser)
-    // dispatch(login(result)); 
+		try {
+			const { data } = await api.user.login({ email, password });
+			const { userAct, accessToken } = data;
+			console.log("esto responde el servicio", data);
 
-    dispatch(login(fakeUser)); // ✅ Guardar usuario en Redux
-    onClose(); // ✅ Cerrar modal después de iniciar sesión
-  };
+			const format = {
+				id: userAct.pgu_id_usuario,
+				token: accessToken,
+				name: userAct.pgu_name_user,
+				email: userAct.pgu_code_user,
+			};
+			storage.setAuth(userAct, accessToken);
+			dispatch(login(format));
 
-  if (!isOpen) return null;
+			// dispatch(login(fakeUser)); // ✅ Guardar usuario en Redux
+			onClose(); // ✅ Cerrar modal después de iniciar sesión
+		} catch (error) {
+			console.log("Error al iniciar sesión:", error);
+		}
+	};
 
-  return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] max-w-md relative">
-        {/* 🔹 Botón de cierre */}
-        <button onClick={onClose} className="absolute top-2 right-2 text-gray-500 hover:text-gray-800">
-          <X size={24} />
-        </button>
+	if (!isOpen) return null;
 
-        <h2 className="text-2xl font-semibold text-center text-[#1C3C6C]">Iniciar sesión</h2>
+	return (
+		<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+			<div className="bg-white p-6 rounded-lg shadow-lg w-[90%] max-w-md relative">
+				{/* 🔹 Botón de cierre */}
+				<button
+					onClick={onClose}
+					className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
+				>
+					<X size={24} />
+				</button>
 
-        {/* 🔹 Mensaje de error */}
-        {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+				<h2 className="text-2xl font-semibold text-center text-[#1C3C6C]">
+					Iniciar sesión
+				</h2>
 
-        <form className="space-y-4 mt-4" onSubmit={handleLogin}>
-          <div className="flex flex-col">
-            <label className="text-sm font-semibold text-gray-700">
-              Nombre de usuario o correo electrónico <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="email"
-              placeholder="ejemplo@gmail.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md mt-1 focus:outline-blue-500"
-            />
-          </div>
+				{/* 🔹 Mensaje de error */}
+				{error && <p className="text-red-500 text-sm text-center">{error}</p>}
 
-          <div className="flex flex-col">
-            <label className="text-sm font-semibold text-gray-700">Contraseña</label>
-            <input
-              type="password"
-              placeholder="*************"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md mt-1 focus:outline-blue-500"
-            />
-          </div>
+				<form className="space-y-4 mt-4" onSubmit={handleLogin}>
+					<div className="flex flex-col">
+						<label className="text-sm font-semibold text-gray-700">
+							Nombre de usuario o correo electrónico{" "}
+							<span className="text-red-500">*</span>
+						</label>
+						<input
+							type="text"
+							placeholder="ejemplo@gmail.com"
+							value={email}
+							onChange={(e) => setEmail(e.target.value)}
+							className="w-full p-2 border border-gray-300 rounded-md mt-1 focus:outline-blue-500"
+						/>
+					</div>
 
-          <div className="text-right">
-            <a href="#" className="text-red-500 text-sm hover:underline">¿Olvidaste tu contraseña?</a>
-          </div>
+					<div className="flex flex-col">
+						<label className="text-sm font-semibold text-gray-700">Contraseña</label>
+						<input
+							type="password"
+							placeholder="*************"
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+							className="w-full p-2 border border-gray-300 rounded-md mt-1 focus:outline-blue-500"
+						/>
+					</div>
 
-          <button type="submit" className="w-full bg-[#1C3C6C] text-white p-2 rounded-md hover:bg-[#142B50]">
-            Ingresar
-          </button>
-        </form>
+					<div className="text-right">
+						<a href="#" className="text-red-500 text-sm hover:underline">
+							¿Olvidaste tu contraseña?
+						</a>
+					</div>
 
-        <p className="text-center text-sm mt-4">
-          ¿No tienes cuenta? <a href="#" className="text-blue-600 font-semibold hover:underline">Regístrate aquí</a>
-        </p>
-      </div>
-    </div>
-  );
+					<button
+						type="submit"
+						className="w-full bg-[#1C3C6C] text-white p-2 rounded-md hover:bg-[#142B50]"
+					>
+						Ingresar
+					</button>
+				</form>
+
+				<p className="text-center text-sm mt-4">
+					¿No tienes cuenta?{" "}
+					<a href="#" className="text-blue-600 font-semibold hover:underline">
+						Regístrate aquí
+					</a>
+				</p>
+			</div>
+		</div>
+	);
 };
 
 export default LoginModal;

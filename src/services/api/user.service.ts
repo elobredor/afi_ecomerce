@@ -2,7 +2,11 @@ import axiosInstance from "./axios.instance";
 
 export const userService = {
 	login: async (credentials: { email: string; password: string }) => {
-		const response = await axiosInstance.post("/login", credentials);
+		const format = {
+			pgu_code_user: credentials.email,
+			pgu_pass: credentials.password,
+		};
+		const response = await axiosInstance.post("/login", format);
 		return response?.data;
 	},
 	loginByCode: async (credentials: { email: string; userCode: string }) => {
@@ -40,8 +44,10 @@ export const userService = {
 		return response?.data;
 	},
 	getSeller: async (page?: number) => {
-		const url = page ? `/negocio/getvendpag?page=${page}` : `/negocio/getvendpag?`;
+		const url = page
+			? `/negocio/getvendpag?page=${page}`
+			: `/negocio/getvendpag?`;
 		const response = await axiosInstance.get(url);
 		return response?.data;
-	}
+	},
 };
