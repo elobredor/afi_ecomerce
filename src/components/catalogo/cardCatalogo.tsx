@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 const CardCatalogo: React.FC<CardProps> = ({ imageSrc, text, id, level }) => {
+  console.log(imageSrc, "esto es la url de la imagen");
+  
   const router = useRouter();
   const dispatch = useDispatch();
   const currentCategory = useSelector((state: RootState) => state.navigation.categoria.name);
@@ -16,13 +18,14 @@ const CardCatalogo: React.FC<CardProps> = ({ imageSrc, text, id, level }) => {
   const currentLine = useSelector((state: RootState) => state.navigation.linea.name);
   const [pendingNavigation, setPendingNavigation] = useState(false);
 
-
-
   const handleCardClick = () => {
     console.log("Antes de dispatch:", { currentCategory, currentBrand, currentLine });
-    // 🔥 Normalizar `text` quitando espacios o reemplazándolos por `-`
-    const cleanText = text.trim().replace(/\s+/g, '-');
-    // 🔥 Identificar en qué nivel estamos y despachar la acción correcta
+    
+    // Normalizar `text` quitando espacios o reemplazándolos por `-` y reemplazando `/` por `-`
+    console.log("esto es esto", text);
+    
+    const cleanText = text.trim().replace(/\s+/g, '-').replace(/\//g, '-');
+    // Identificar en qué nivel estamos y despachar la acción correcta
     if (level === "categoria") {
       dispatch(setCategoria({ id, name: cleanText }));
     } else if (level === "marca") {
@@ -37,16 +40,32 @@ const CardCatalogo: React.FC<CardProps> = ({ imageSrc, text, id, level }) => {
     setPendingNavigation(true); // Marca que debe hacer la navegación
   };
 
-  // 🔥 `useEffect` para esperar la actualización de Redux antes de hacer `router.push`
+  // `useEffect` para esperar la actualización de Redux antes de hacer `router.push`
   useEffect(() => {
     if (pendingNavigation) {
-      let newPath = `/${text.trim().replace(/\s+/g, '-')}`; // Normaliza `text`
-
-      if (currentCategory && level === "marca") {
-        newPath = `/${currentCategory}/${text.trim().replace(/\s+/g, '-')}`;
-      }
-      if (currentCategory && currentBrand && level === "linea") {
-        newPath = `/${currentCategory}/${currentBrand}/${text.trim().replace(/\s+/g, '-')}`;
+      // Normalizar todos los textos de forma consistente
+      const normalizeText = (text) => {
+        return text ? text.trim().replace(/\s+/g, '-').replace(/\//g, '-') : '';
+      };
+      
+      const normalizedText = normalizeText(text);
+      
+      let newPath = '';
+      
+      if (level === "categoria") {
+        newPath = `/${normalizedText}`;
+      } else if (level === "marca") {
+        const normalizedCategory = normalizeText(currentCategory);
+        newPath = `/${normalizedCategory}/${normalizedText}`;
+      } else if (level === "linea") {
+        const normalizedCategory = normalizeText(currentCategory);
+        const normalizedBrand = normalizeText(currentBrand);
+        newPath = `/${normalizedCategory}/${normalizedBrand}/${normalizedText}`;
+      } else if (level === "producto") {
+        const normalizedCategory = normalizeText(currentCategory);
+        const normalizedBrand = normalizeText(currentBrand);
+        const normalizedLine = normalizeText(currentLine);
+        newPath = `/${normalizedCategory}/${normalizedBrand}/${normalizedLine}/${normalizedText}`;
       }
 
       console.log("Redirigiendo a:", newPath);
@@ -55,15 +74,13 @@ const CardCatalogo: React.FC<CardProps> = ({ imageSrc, text, id, level }) => {
     }
   }, [currentCategory, currentBrand, currentLine, pendingNavigation, text, router, level]);
 
-
   return (
     <div className="card-container">
-      <div className="card" onClick={(handleCardClick)} style={{ cursor: 'pointer' }}>
-        {/* <img src={imageSrc} alt={text || categoria} className="card-image p-8 mt-3" /> */}
+      <div className="card" onClick={handleCardClick} style={{ cursor: 'pointer' }}>
         <Image
-          src={imageSrc}
-          height={100}
-          width={ 100}
+          src={imageSrc || "/placeholder.jpg"} // Default image if not provided
+          height={150}
+          width={150}
           alt={text}
           className='card-image p-8 mt-3'
         />
@@ -71,9 +88,7 @@ const CardCatalogo: React.FC<CardProps> = ({ imageSrc, text, id, level }) => {
           <p className="animated-text">{text}</p>
         </div>
       </div>
-      {/* Puedes agregar más tarjetas aquí */}
     </div>
-
   );
 };
 

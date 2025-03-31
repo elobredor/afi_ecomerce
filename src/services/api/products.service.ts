@@ -3,13 +3,16 @@ import axiosInstance from "./axios.instance";
 
 
 export const productService = {
-	getAll: async (query: string = "") => {
-		const response = await axiosInstance.get(
-			`/producto/getPag?page=1${query === "" ? "" : `&filtro=${query}`}`
-		);
-		return response?.data?.data;
+	getAll: async (code:string) => {
+		const {data} = await axiosInstance.post(`/articlesBrand`, {code});
+		return data;
 	},
+	getByCode: async (code:string) => {
+		const {data} = await axiosInstance.post(`/detailItem`, {code});
+		return data;
+	}
 
+	
 
 	// getProductById: async (id: string) => {
 	// 	const response = await axiosInstance.get(`/producto/get/${id}`);

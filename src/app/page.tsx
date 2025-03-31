@@ -40,7 +40,7 @@ export default function Home() {
       setCategories(
         resultCategories.data.map((category: any) => ({
           id: category.mga_id,
-          imageSrc: category.imageSrc || "/placeholder.png", // Default image if not provided
+          imageSrc: category.imageSrc || "/placeholder.jpg", // Default image if not provided
           text: category.mga_name,
         }))
       );
@@ -84,23 +84,27 @@ export default function Home() {
           }} />
         </div>
         {/*Categoría DESTACADAS */}
-          <div className={styles.gridContainer}>
+          
 
-  {categories.length > 0 && (
-  <div className={styles.gridContainer}>
-    {categories?.map((catalogo) => (
-      <CardCatalogo
-        key={catalogo.id}
-        imageSrc={catalogo.imageSrc}
-        text={catalogo.text}
-        id={catalogo.id}
-        level="categoria"
-      />
-    ))}
-  </div>
-)}
+          <div className={styles.gridContainer}>
+          {categories === null ? (
+            <p>Cargando categorías...</p>
+          ) : categories.length > 0 ? (
+            categories.map((catalogo) => (
+              <CardCatalogo
+                key={catalogo.id}
+                imageSrc={catalogo.imageSrce}
+                text={catalogo.text}
+                id={catalogo.id}
+                level="categoria"
+              />
+            ))
+          ) : (
+            <p>No hay categorías disponibles</p>
+          )}
+        </div>
   
-          </div>
+       
         {/* 🔹 Botón "Ver Más" centrado */}
         <div className="flex justify-center mt-5">
           <button

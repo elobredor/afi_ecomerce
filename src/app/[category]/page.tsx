@@ -2,27 +2,30 @@
 
 import { useState, useEffect } from 'react';
 import styles from '../../components/catalogo/catalogoPage.module.css';
-import Banner from '@/components/catalogo/bannerCatalogo';
 import CardCatalogo from '@/components/catalogo/cardCatalogo';
 import Breadcrumb from '@/components/ui/Breadcrums/Breadcrums';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
 import { api } from '@/services/api';
+import { usePathname } from 'next/navigation';
 
 const ModelosPage = () => {
-  // 🔹 Obtener `categoriaId` y `marcaId` desde Redux
-  const categoriaId = useSelector((state: RootState) => state.navigation.categoria.id) || undefined;
-  const marcaId = useSelector((state: RootState) => state.navigation.marca.id) || '';
+  const pathname = usePathname();
+  
+  // Extraer categoría y marca de la URL
+  const pathParts = pathname.split('/').filter(part => part);
+  const nameCategory = pathParts[0] || '';
+
+
+
 
   // 🔹 Estado para guardar los modelos
   const [modelos, setModelos] = useState<{ id: string; imageSrc: string; text: string }[]>([]);
   const [loading, setLoading] = useState(true);
 
   // 🔹 Función para obtener los modelos desde la API
-  const fetchModelos = async (idcategoria: string) => {
+  const fetchModelos = async (nameCategory: string) => {
     try {
  
-      const response = await api.categories.getAll(idcategoria)
+      const response = await api.categories.getAll(nameCategory)
    
 
 console.log(response.data, 'desde categoria ');
@@ -30,7 +33,7 @@ console.log(response.data, 'desde categoria ');
       
     setModelos(response.data.map((modelo: any) => ({
         id: modelo.mfa_id,
-        imageSrc: modelo.imageSrc || "/placeholder.png", // Default image if not provided
+        imageSrc: modelo.imageSrc || "/placeholder.jpg", // Default image if not provided
         text: modelo.mfa_pref || modelo.mfa_pref, // Default text if not provided
       })
     ))
@@ -43,13 +46,13 @@ console.log(response.data, 'desde categoria ');
     }
   };
 
-  // 🔹 Llamar API cuando `categoriaId` o `marcaId` cambien
+  // 🔹 Llamar API cuando `nameCategory` o `marcaId` cambien
   useEffect(() => {
-    if (categoriaId) {
+    if (nameCategory) {
       setLoading(true);
-      fetchModelos(categoriaId);
+      fetchModelos(nameCategory);
     }
-  }, [categoriaId]);
+  }, [nameCategory]);
 
   return (
     <div>
@@ -75,7 +78,7 @@ console.log(response.data, 'desde categoria ');
                   imageSrc={modelo.imageSrc} 
                   text={modelo.text}      // supongo que esto va a cambiar como el resto de propiedades pero ya desde esta perspectiva general será más facil 
                   id={modelo.id}
-                  categoria={categoriaId}
+                  categoria={nameCategory}
                   marca=""
                   modelo=""
                   level="marca"

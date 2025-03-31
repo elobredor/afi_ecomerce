@@ -1,43 +1,45 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import styles from '../../../components/catalogo/catalogoPage.module.css';
 import CardCatalogo from '@/components/catalogo/cardCatalogo';
 import Breadcrumb from '@/components/ui/Breadcrums/Breadcrums';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
 import { api } from '@/services/api';
 
 const MarcasPage = () => {
-  // 🔹 Obtener `categoriaId` y `marcaId` desde Redux
-  const categoriaId = useSelector((state: RootState) => state.navigation.categoria.id) || undefined;
-  const marcaId = useSelector((state: RootState) => state.navigation.marca.id) || '';
-
-  // 🔹 Estado para guardar los marcas
+  // Estado para guardar las líneas/modelos
   const [marcas, setMarcas] = useState<{ id: string; imageSrc: string; text: string }[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  // Obtener la ruta actual
+  const pathname = usePathname();
+  
+  // Extraer categoría y marca de la URL
+  const pathParts = pathname.split('/').filter(part => part);
+  const categoriaId = pathParts[0] || '';
+  const marcaId = pathParts[1] || '';
 
-  // 🔹 Función para obtener los marcas desde la API
+  // Función para obtener las líneas desde la API
   const fetchMarcas = async (idmarca: string, idcategoria: string) => {
     try {
-      const {data} = await api.line.getAll(idcategoria, idmarca ); // 🔥 Llamar a la API para obtener marcas
-console.log(data, 'desde marcas');
+      console.log('Fetching líneas with:', { idcategoria, idmarca });
+      const { data } = await api.line.getAll(idcategoria, idmarca);
 
-
- setMarcas(data.map((marca: any) => ({
+      setMarcas(data.map((marca: any) => ({
         id: marca.msg_id,
-        imageSrc: marca.msg_asdfadf || "/placeholder.png", // Default image if not provided
+        imageSrc: marca.msg_asdfadf || "/placeholder.jpg", // Default image if not provided
         text: marca.msg_pref || marca.mfa_pref, // Default text if not provided
       })));
     } catch (error) {
-      console.error("Error obteniendo marcas:", error);
-      setMarcas([]); // 🔥 Si hay error, deja el estado vacío
+      console.error("Error obteniendo líneas:", error);
+      setMarcas([]);
     } finally {
-      setLoading(false); // 🔥 Detener la carga
+      setLoading(false);
     }
   };
 
-  // 🔹 Llamar API cuando `categoriaId` o `marcaId` cambien
+  // Llamar API cuando la ruta cambie
   useEffect(() => {
     if (categoriaId && marcaId) {
       setLoading(true);
@@ -47,16 +49,13 @@ console.log(data, 'desde marcas');
 
   return (
     <div>
-    
       <div className={styles.catalogContainer}>
- 
         <div className={styles.breadcrumbWrapper}>
           <Breadcrumb />
         </div>
 
- 
         {loading ? (
-          <p className="text-center text-gray-500">Cargando marcas...</p>
+          <p className="text-center text-gray-500">Cargando líneas...</p>
         ) : (
           <div className={styles.gridContainer}>
             {marcas.length > 0 ? (
@@ -67,13 +66,13 @@ console.log(data, 'desde marcas');
                   text={marca.text}
                   id={marca.id}
                   categoria={categoriaId}
-                  marca={marcaId }
+                  marca={marcaId}
                   modelo={marca.id}
                   level="linea"
                 />
               ))
             ) : (
-              <p className="text-center text-gray-500">No hay marcas disponibles</p>
+              <p className="text-center text-gray-500">No hay líneas disponibles</p>
             )}
           </div>
         )}

@@ -11,6 +11,18 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'upload.wikimedia.org',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'autofrioimportaciones.com',
+        port: '',
+        pathname: '/**',
+      },
       // Agrega más patrones si necesitas permitir otros dominios
     ],
   },

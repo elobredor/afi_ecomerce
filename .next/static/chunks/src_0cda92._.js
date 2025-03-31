@@ -38,9 +38,9 @@ var _s = __turbopack_refresh__.signature();
 ;
 const CardCatalogo = ({ imageSrc, text, id, level })=>{
     _s();
+    console.log(imageSrc, "esto es la url de la imagen");
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
     const dispatch = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$react$2d$redux$40$9$2e$2$2e$0_$40$types$2b$react$40$18$2e$2$2e$22_react$40$19$2e$0$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useDispatch"])();
-    // Obtener el estado actual desde Redux
     const currentCategory = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$react$2d$redux$40$9$2e$2$2e$0_$40$types$2b$react$40$18$2e$2$2e$22_react$40$19$2e$0$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSelector"])({
         "CardCatalogo.useSelector[currentCategory]": (state)=>state.navigation.categoria.name
     }["CardCatalogo.useSelector[currentCategory]"]);
@@ -57,9 +57,10 @@ const CardCatalogo = ({ imageSrc, text, id, level })=>{
             currentBrand,
             currentLine
         });
-        // 🔥 Normalizar `text` quitando espacios o reemplazándolos por `-`
-        const cleanText = text.trim().replace(/\s+/g, '-');
-        // 🔥 Identificar en qué nivel estamos y despachar la acción correcta
+        // Normalizar `text` quitando espacios o reemplazándolos por `-` y reemplazando `/` por `-`
+        console.log("esto es esto", text);
+        const cleanText = text.trim().replace(/\s+/g, '-').replace(/\//g, '-');
+        // Identificar en qué nivel estamos y despachar la acción correcta
         if (level === "categoria") {
             dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$store$2f$slices$2f$navigationSlice$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["setCategoria"])({
                 id,
@@ -83,16 +84,32 @@ const CardCatalogo = ({ imageSrc, text, id, level })=>{
         }
         setPendingNavigation(true); // Marca que debe hacer la navegación
     };
-    // 🔥 `useEffect` para esperar la actualización de Redux antes de hacer `router.push`
+    // `useEffect` para esperar la actualización de Redux antes de hacer `router.push`
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "CardCatalogo.useEffect": ()=>{
             if (pendingNavigation) {
-                let newPath = `/${text.trim().replace(/\s+/g, '-')}`; // Normaliza `text`
-                if (currentCategory && level === "marca") {
-                    newPath = `/${currentCategory}/${text.trim().replace(/\s+/g, '-')}`;
-                }
-                if (currentCategory && currentBrand && level === "linea") {
-                    newPath = `/${currentCategory}/${currentBrand}/${text.trim().replace(/\s+/g, '-')}`;
+                // Normalizar todos los textos de forma consistente
+                const normalizeText = {
+                    "CardCatalogo.useEffect.normalizeText": (text)=>{
+                        return text ? text.trim().replace(/\s+/g, '-').replace(/\//g, '-') : '';
+                    }
+                }["CardCatalogo.useEffect.normalizeText"];
+                const normalizedText = normalizeText(text);
+                let newPath = '';
+                if (level === "categoria") {
+                    newPath = `/${normalizedText}`;
+                } else if (level === "marca") {
+                    const normalizedCategory = normalizeText(currentCategory);
+                    newPath = `/${normalizedCategory}/${normalizedText}`;
+                } else if (level === "linea") {
+                    const normalizedCategory = normalizeText(currentCategory);
+                    const normalizedBrand = normalizeText(currentBrand);
+                    newPath = `/${normalizedCategory}/${normalizedBrand}/${normalizedText}`;
+                } else if (level === "producto") {
+                    const normalizedCategory = normalizeText(currentCategory);
+                    const normalizedBrand = normalizeText(currentBrand);
+                    const normalizedLine = normalizeText(currentLine);
+                    newPath = `/${normalizedCategory}/${normalizedBrand}/${normalizedLine}/${normalizedText}`;
                 }
                 console.log("Redirigiendo a:", newPath);
                 router.push(newPath);
@@ -118,14 +135,14 @@ const CardCatalogo = ({ imageSrc, text, id, level })=>{
             },
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                    src: imageSrc,
-                    height: 100,
-                    width: 100,
+                    src: imageSrc || "/placeholder.jpg",
+                    height: 150,
+                    width: 150,
                     alt: text,
                     className: "card-image p-8 mt-3"
                 }, void 0, false, {
                     fileName: "[project]/src/components/catalogo/cardCatalogo.tsx",
-                    lineNumber: 65,
+                    lineNumber: 80,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -135,23 +152,23 @@ const CardCatalogo = ({ imageSrc, text, id, level })=>{
                         children: text
                     }, void 0, false, {
                         fileName: "[project]/src/components/catalogo/cardCatalogo.tsx",
-                        lineNumber: 73,
+                        lineNumber: 88,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/components/catalogo/cardCatalogo.tsx",
-                    lineNumber: 72,
+                    lineNumber: 87,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/components/catalogo/cardCatalogo.tsx",
-            lineNumber: 63,
+            lineNumber: 79,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/components/catalogo/cardCatalogo.tsx",
-        lineNumber: 62,
+        lineNumber: 78,
         columnNumber: 5
     }, this);
 };
@@ -338,7 +355,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$catalog
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$catalogo$2f$cardCatalogo$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/src/components/catalogo/cardCatalogo.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$Breadcrums$2f$Breadcrums$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/src/components/ui/Breadcrums/Breadcrums.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$services$2f$api$2f$index$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/src/services/api/index.ts [app-client] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$react$2d$redux$40$9$2e$2$2e$0_$40$types$2b$react$40$18$2e$2$2e$22_react$40$19$2e$0$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/.pnpm/react-redux@9.2.0_@types+react@18.2.22_react@19.0.0_redux@5.0.1/node_modules/react-redux/dist/react-redux.mjs [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/.pnpm/next@15.1.6_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/navigation.js [app-client] (ecmascript)");
 ;
 var _s = __turbopack_refresh__.signature();
 "use client";
@@ -350,24 +367,21 @@ var _s = __turbopack_refresh__.signature();
 ;
 const ModelosPage = ()=>{
     _s();
-    // 🔹 Obtener `categoriaId` y `marcaId` desde Redux
-    const categoriaId = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$react$2d$redux$40$9$2e$2$2e$0_$40$types$2b$react$40$18$2e$2$2e$22_react$40$19$2e$0$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSelector"])({
-        "ModelosPage.useSelector": (state)=>state.navigation.categoria.id
-    }["ModelosPage.useSelector"]) || undefined;
-    const marcaId = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$react$2d$redux$40$9$2e$2$2e$0_$40$types$2b$react$40$18$2e$2$2e$22_react$40$19$2e$0$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSelector"])({
-        "ModelosPage.useSelector": (state)=>state.navigation.marca.id
-    }["ModelosPage.useSelector"]) || '';
+    const pathname = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"])();
+    // Extraer categoría y marca de la URL
+    const pathParts = pathname.split('/').filter((part)=>part);
+    const nameCategory = pathParts[0] || '';
     // 🔹 Estado para guardar los modelos
     const [modelos, setModelos] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
     // 🔹 Función para obtener los modelos desde la API
-    const fetchModelos = async (idcategoria)=>{
+    const fetchModelos = async (nameCategory)=>{
         try {
-            const response = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$services$2f$api$2f$index$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["api"].categories.getAll(idcategoria);
+            const response = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$services$2f$api$2f$index$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["api"].categories.getAll(nameCategory);
             console.log(response.data, 'desde categoria ');
             setModelos(response.data.map((modelo)=>({
                     id: modelo.mfa_id,
-                    imageSrc: modelo.imageSrc || "/placeholder.png",
+                    imageSrc: modelo.imageSrc || "/placeholder.jpg",
                     text: modelo.mfa_pref || modelo.mfa_pref
                 })));
         } catch (error) {
@@ -377,16 +391,16 @@ const ModelosPage = ()=>{
             setLoading(false); // 🔥 Detener la carga
         }
     };
-    // 🔹 Llamar API cuando `categoriaId` o `marcaId` cambien
+    // 🔹 Llamar API cuando `nameCategory` o `marcaId` cambien
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "ModelosPage.useEffect": ()=>{
-            if (categoriaId) {
+            if (nameCategory) {
                 setLoading(true);
-                fetchModelos(categoriaId);
+                fetchModelos(nameCategory);
             }
         }
     }["ModelosPage.useEffect"], [
-        categoriaId
+        nameCategory
     ]);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -396,12 +410,12 @@ const ModelosPage = ()=>{
                     className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$catalogo$2f$catalogoPage$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].breadcrumbWrapper,
                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$Breadcrums$2f$Breadcrums$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                         fileName: "[project]/src/app/[category]/page.tsx",
-                        lineNumber: 63,
+                        lineNumber: 66,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/app/[category]/page.tsx",
-                    lineNumber: 62,
+                    lineNumber: 65,
                     columnNumber: 9
                 }, this),
                 loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -409,7 +423,7 @@ const ModelosPage = ()=>{
                     children: "Cargando modelos..."
                 }, void 0, false, {
                     fileName: "[project]/src/app/[category]/page.tsx",
-                    lineNumber: 68,
+                    lineNumber: 71,
                     columnNumber: 11
                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$catalogo$2f$catalogoPage$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].gridContainer,
@@ -417,43 +431,42 @@ const ModelosPage = ()=>{
                             imageSrc: modelo.imageSrc,
                             text: modelo.text,
                             id: modelo.id,
-                            categoria: categoriaId,
+                            categoria: nameCategory,
                             marca: "",
                             modelo: "",
                             level: "marca"
                         }, modelo.id, false, {
                             fileName: "[project]/src/app/[category]/page.tsx",
-                            lineNumber: 73,
+                            lineNumber: 76,
                             columnNumber: 17
                         }, this)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         className: "text-center text-gray-500",
                         children: "No hay modelos disponibles"
                     }, void 0, false, {
                         fileName: "[project]/src/app/[category]/page.tsx",
-                        lineNumber: 85,
+                        lineNumber: 88,
                         columnNumber: 15
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/app/[category]/page.tsx",
-                    lineNumber: 70,
+                    lineNumber: 73,
                     columnNumber: 11
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/app/[category]/page.tsx",
-            lineNumber: 60,
+            lineNumber: 63,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/app/[category]/page.tsx",
-        lineNumber: 55,
+        lineNumber: 58,
         columnNumber: 5
     }, this);
 };
-_s(ModelosPage, "ipfq2o/rH7esl7KnAOO0vc5ePbQ=", false, function() {
+_s(ModelosPage, "Ad6TUGIr1y2MoC3JeLoJuR6EmPE=", false, function() {
     return [
-        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$react$2d$redux$40$9$2e$2$2e$0_$40$types$2b$react$40$18$2e$2$2e$22_react$40$19$2e$0$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSelector"],
-        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$react$2d$redux$40$9$2e$2$2e$0_$40$types$2b$react$40$18$2e$2$2e$22_react$40$19$2e$0$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSelector"]
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"]
     ];
 });
 _c = ModelosPage;

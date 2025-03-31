@@ -36,9 +36,9 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$re
 ;
 ;
 const CardCatalogo = ({ imageSrc, text, id, level })=>{
+    console.log(imageSrc, "esto es la url de la imagen");
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRouter"])();
     const dispatch = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$react$2d$redux$40$9$2e$2$2e$0_$40$types$2b$react$40$18$2e$2$2e$22_react$40$19$2e$0$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useDispatch"])();
-    // Obtener el estado actual desde Redux
     const currentCategory = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$react$2d$redux$40$9$2e$2$2e$0_$40$types$2b$react$40$18$2e$2$2e$22_react$40$19$2e$0$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useSelector"])((state)=>state.navigation.categoria.name);
     const currentBrand = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$react$2d$redux$40$9$2e$2$2e$0_$40$types$2b$react$40$18$2e$2$2e$22_react$40$19$2e$0$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useSelector"])((state)=>state.navigation.marca.name);
     const currentLine = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$react$2d$redux$40$9$2e$2$2e$0_$40$types$2b$react$40$18$2e$2$2e$22_react$40$19$2e$0$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useSelector"])((state)=>state.navigation.linea.name);
@@ -49,9 +49,10 @@ const CardCatalogo = ({ imageSrc, text, id, level })=>{
             currentBrand,
             currentLine
         });
-        // 🔥 Normalizar `text` quitando espacios o reemplazándolos por `-`
-        const cleanText = text.trim().replace(/\s+/g, '-');
-        // 🔥 Identificar en qué nivel estamos y despachar la acción correcta
+        // Normalizar `text` quitando espacios o reemplazándolos por `-` y reemplazando `/` por `-`
+        console.log("esto es esto", text);
+        const cleanText = text.trim().replace(/\s+/g, '-').replace(/\//g, '-');
+        // Identificar en qué nivel estamos y despachar la acción correcta
         if (level === "categoria") {
             dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$store$2f$slices$2f$navigationSlice$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["setCategoria"])({
                 id,
@@ -75,15 +76,29 @@ const CardCatalogo = ({ imageSrc, text, id, level })=>{
         }
         setPendingNavigation(true); // Marca que debe hacer la navegación
     };
-    // 🔥 `useEffect` para esperar la actualización de Redux antes de hacer `router.push`
+    // `useEffect` para esperar la actualización de Redux antes de hacer `router.push`
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         if (pendingNavigation) {
-            let newPath = `/${text.trim().replace(/\s+/g, '-')}`; // Normaliza `text`
-            if (currentCategory && level === "marca") {
-                newPath = `/${currentCategory}/${text.trim().replace(/\s+/g, '-')}`;
-            }
-            if (currentCategory && currentBrand && level === "linea") {
-                newPath = `/${currentCategory}/${currentBrand}/${text.trim().replace(/\s+/g, '-')}`;
+            // Normalizar todos los textos de forma consistente
+            const normalizeText = (text)=>{
+                return text ? text.trim().replace(/\s+/g, '-').replace(/\//g, '-') : '';
+            };
+            const normalizedText = normalizeText(text);
+            let newPath = '';
+            if (level === "categoria") {
+                newPath = `/${normalizedText}`;
+            } else if (level === "marca") {
+                const normalizedCategory = normalizeText(currentCategory);
+                newPath = `/${normalizedCategory}/${normalizedText}`;
+            } else if (level === "linea") {
+                const normalizedCategory = normalizeText(currentCategory);
+                const normalizedBrand = normalizeText(currentBrand);
+                newPath = `/${normalizedCategory}/${normalizedBrand}/${normalizedText}`;
+            } else if (level === "producto") {
+                const normalizedCategory = normalizeText(currentCategory);
+                const normalizedBrand = normalizeText(currentBrand);
+                const normalizedLine = normalizeText(currentLine);
+                newPath = `/${normalizedCategory}/${normalizedBrand}/${normalizedLine}/${normalizedText}`;
             }
             console.log("Redirigiendo a:", newPath);
             router.push(newPath);
@@ -108,14 +123,14 @@ const CardCatalogo = ({ imageSrc, text, id, level })=>{
             },
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                    src: imageSrc,
-                    height: 100,
-                    width: 100,
+                    src: imageSrc || "/placeholder.jpg",
+                    height: 150,
+                    width: 150,
                     alt: text,
                     className: "card-image p-8 mt-3"
                 }, void 0, false, {
                     fileName: "[project]/src/components/catalogo/cardCatalogo.tsx",
-                    lineNumber: 65,
+                    lineNumber: 80,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -125,23 +140,23 @@ const CardCatalogo = ({ imageSrc, text, id, level })=>{
                         children: text
                     }, void 0, false, {
                         fileName: "[project]/src/components/catalogo/cardCatalogo.tsx",
-                        lineNumber: 73,
+                        lineNumber: 88,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/components/catalogo/cardCatalogo.tsx",
-                    lineNumber: 72,
+                    lineNumber: 87,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/components/catalogo/cardCatalogo.tsx",
-            lineNumber: 63,
+            lineNumber: 79,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/components/catalogo/cardCatalogo.tsx",
-        lineNumber: 62,
+        lineNumber: 78,
         columnNumber: 5
     }, this);
 };
@@ -292,11 +307,11 @@ __turbopack_esm__({
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/.pnpm/next@15.1.6_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/.pnpm/next@15.1.6_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react.js [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/.pnpm/next@15.1.6_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/navigation.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$catalogo$2f$catalogoPage$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__ = __turbopack_import__("[project]/src/components/catalogo/catalogoPage.module.css [app-client] (css module)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$catalogo$2f$cardCatalogo$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/src/components/catalogo/cardCatalogo.tsx [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$Breadcrums$2f$Breadcrums$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/src/components/ui/Breadcrums/Breadcrums.tsx [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$services$2f$api$2f$index$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/src/services/api/index.ts [app-ssr] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$react$2d$redux$40$9$2e$2$2e$0_$40$types$2b$react$40$18$2e$2$2e$22_react$40$19$2e$0$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/.pnpm/react-redux@9.2.0_@types+react@18.2.22_react@19.0.0_redux@5.0.1/node_modules/react-redux/dist/react-redux.mjs [app-ssr] (ecmascript)");
 "use client";
 ;
 ;
@@ -306,30 +321,36 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$re
 ;
 ;
 const MarcasPage = ()=>{
-    // 🔹 Obtener `categoriaId` y `marcaId` desde Redux
-    const categoriaId = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$react$2d$redux$40$9$2e$2$2e$0_$40$types$2b$react$40$18$2e$2$2e$22_react$40$19$2e$0$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useSelector"])((state)=>state.navigation.categoria.id) || undefined;
-    const marcaId = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$react$2d$redux$40$9$2e$2$2e$0_$40$types$2b$react$40$18$2e$2$2e$22_react$40$19$2e$0$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useSelector"])((state)=>state.navigation.marca.id) || '';
-    // 🔹 Estado para guardar los marcas
+    // Estado para guardar las líneas/modelos
     const [marcas, setMarcas] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])([]);
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(true);
-    // 🔹 Función para obtener los marcas desde la API
+    // Obtener la ruta actual
+    const pathname = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["usePathname"])();
+    // Extraer categoría y marca de la URL
+    const pathParts = pathname.split('/').filter((part)=>part);
+    const categoriaId = pathParts[0] || '';
+    const marcaId = pathParts[1] || '';
+    // Función para obtener las líneas desde la API
     const fetchMarcas = async (idmarca, idcategoria)=>{
         try {
-            const { data } = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$services$2f$api$2f$index$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["api"].line.getAll(idcategoria, idmarca); // 🔥 Llamar a la API para obtener marcas
-            console.log(data, 'desde marcas');
+            console.log('Fetching líneas with:', {
+                idcategoria,
+                idmarca
+            });
+            const { data } = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$services$2f$api$2f$index$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["api"].line.getAll(idcategoria, idmarca);
             setMarcas(data.map((marca)=>({
                     id: marca.msg_id,
-                    imageSrc: marca.msg_asdfadf || "/placeholder.png",
+                    imageSrc: marca.msg_asdfadf || "/placeholder.jpg",
                     text: marca.msg_pref || marca.mfa_pref
                 })));
         } catch (error) {
-            console.error("Error obteniendo marcas:", error);
-            setMarcas([]); // 🔥 Si hay error, deja el estado vacío
+            console.error("Error obteniendo líneas:", error);
+            setMarcas([]);
         } finally{
-            setLoading(false); // 🔥 Detener la carga
+            setLoading(false);
         }
     };
-    // 🔹 Llamar API cuando `categoriaId` o `marcaId` cambien
+    // Llamar API cuando la ruta cambie
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         if (categoriaId && marcaId) {
             setLoading(true);
@@ -357,10 +378,10 @@ const MarcasPage = ()=>{
                 }, this),
                 loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                     className: "text-center text-gray-500",
-                    children: "Cargando marcas..."
+                    children: "Cargando líneas..."
                 }, void 0, false, {
                     fileName: "[project]/src/app/[category]/[brand]/page.tsx",
-                    lineNumber: 59,
+                    lineNumber: 58,
                     columnNumber: 11
                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$catalogo$2f$catalogoPage$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].gridContainer,
@@ -374,30 +395,30 @@ const MarcasPage = ()=>{
                             level: "linea"
                         }, marca.id, false, {
                             fileName: "[project]/src/app/[category]/[brand]/page.tsx",
-                            lineNumber: 64,
+                            lineNumber: 63,
                             columnNumber: 17
                         }, this)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         className: "text-center text-gray-500",
-                        children: "No hay marcas disponibles"
+                        children: "No hay líneas disponibles"
                     }, void 0, false, {
                         fileName: "[project]/src/app/[category]/[brand]/page.tsx",
-                        lineNumber: 76,
+                        lineNumber: 75,
                         columnNumber: 15
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/app/[category]/[brand]/page.tsx",
-                    lineNumber: 61,
+                    lineNumber: 60,
                     columnNumber: 11
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/app/[category]/[brand]/page.tsx",
-            lineNumber: 51,
+            lineNumber: 52,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/app/[category]/[brand]/page.tsx",
-        lineNumber: 49,
+        lineNumber: 51,
         columnNumber: 5
     }, this);
 };

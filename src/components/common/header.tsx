@@ -12,16 +12,28 @@ import LoginModal from "../auth/loginModal";
 import { logout, selectAuth } from "@/store/slices/authSlice";
 import { RootState } from "@/store/store";
 import ProfileButton from "./ProfileButton";
+// Import ProfileButton only if you're using it
+// import ProfileButton from "./ProfileButton";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const router = useRouter();
-  const cartItems = useSelector((state: RootState) => state.cart.items);
-  const cartItemsCount = cartItems.reduce((total, item) => total + item.quantity, 0);
   const dispatch = useDispatch();
   const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const user = useSelector((state: RootState) => state.auth.user);
+  
+  // Only access Redux state after component is mounted
   const { isAuthenticated } = useSelector(selectAuth);
+  const user = useSelector((state: RootState) => state.auth.user);
+  const cartItems = useSelector((state: RootState) => state.cart.items);
+  
+  // Calculate cart items count only after mounting
+  const cartItemsCount = mounted ? cartItems.reduce((total, item) => total + item.quantity, 0) : 0;
+
+  // Set mounted state after component mounts
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <header className="fixed top-0 left-0 right-0 bg-white shadow-md z-10">
@@ -31,23 +43,24 @@ export default function Header() {
             <Image src="/logos/Autofrio.png" alt="Autofrio Importaciones" width={220} height={100} />
           </Link>
           <div className="z-50 w-[60%]">
-          <SearchBar />
+            <SearchBar />
           </div>
-          {user && (
+          {/* Only render cart and user-related elements after component is mounted */}
+          {mounted && user && (
             <>
-            <button className="relative text-gray-600 hover:text-blue-600" onClick={() => router.push('/cart')}>
-              <ShoppingCart className="w-5 h-5" />
-              {cartItemsCount > 0 && (
-                <span className="absolute top-0 right-[-20px] bg-red-600 text-white text-xs px-1.5 py-0.5 rounded-full">
-                  {cartItemsCount}
-                </span>
-              )}
-            </button>
-            <div className="w-px h-8 bg-gray-300"></div> {/* Divisor vertical */}
+              <button className="relative text-gray-600 hover:text-blue-600" onClick={() => router.push('/cart')}>
+                <ShoppingCart className="w-5 h-5" />
+                {cartItemsCount > 0 && (
+                  <span className="absolute top-0 right-[-20px] bg-red-600 text-white text-xs px-1.5 py-0.5 rounded-full">
+                    {cartItemsCount}
+                  </span>
+                )}
+              </button>
+              <div className="w-px h-8 bg-gray-300"></div> {/* Divisor vertical */}
             </>
           )}
-          <ProfileButton />
-
+          {/* Uncomment and use ProfileButton if needed */}
+          {mounted && <ProfileButton />}
         </div>
       </div>
       <div className="bg-white">
@@ -70,11 +83,12 @@ export default function Header() {
               <MapPin className="w-4 h-4 text-red-600" />
               PUNTOS DE VENTA
             </Link>
-            {isAuthenticated ? <Link href="/garantias" className="text-blue-900 text-sm font-light hover:font-bold relative after:content-[''] after:absolute after:bottom-[-3px] after:left-1/2 after:w-0 after:h-[2px] after:bg-red-600 after:transition-all after:duration-300 hover:after:w-full hover:after:left-0">
-              GARANTÍAS
-            </Link>
-              : null}
-
+            {/* Only render conditional links after component is mounted */}
+            {mounted && isAuthenticated && (
+              <Link href="/garantias" className="text-blue-900 text-sm font-light hover:font-bold relative after:content-[''] after:absolute after:bottom-[-3px] after:left-1/2 after:w-0 after:h-[2px] after:bg-red-600 after:transition-all after:duration-300 hover:after:w-full hover:after:left-0">
+                GARANTÍAS
+              </Link>
+            )}
             <Link href="/contacto" className="text-blue-900 text-sm font-light hover:font-bold relative after:content-[''] after:absolute after:bottom-[-3px] after:left-1/2 after:w-0 after:h-[2px] after:bg-red-600 after:transition-all after:duration-300 hover:after:w-full hover:after:left-0">
               CONTACTO
             </Link>

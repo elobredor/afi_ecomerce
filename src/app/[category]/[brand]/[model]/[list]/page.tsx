@@ -1,52 +1,54 @@
 "use client"; // 🔥 Agrega esto en la primera línea
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { JSXElementConstructor, Key, PromiseLikeOfReactNode, ReactElement, ReactNode, ReactPortal, useCallback, useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, Search } from "lucide-react";
-import SlideCardsBlank from "@/components/catalogo/sliderCards/sliderCardsBlank";
 import { selectAuth } from "@/store/slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
-import SkeletonSwiper from "@/components/catalogo/sliderCards/skeletonSwiper";
-import { CardRelProductProps } from "@/types/interfaces";
 import { addToCart } from "@/store/slices/cartSlice";
+import { api } from "@/services/api";
+import { usePathname } from "next/navigation";
+import { CurrentProduct, Equivalent, Producto} from "@/data";
+
 
 
 const ProductDetail = () => {
+      // Obtener la ruta actual
+      const pathname = usePathname();
+      // Extraer categoría, marca y línea de la URL
+      const pathParts = pathname.split('/').filter(part => part);
+      
+      const productoId = pathParts[3] || '';
 
-    const oemList = ["Audi A1", "Volkswagen Golf", "Mazda 3", "Audi A1", "Volkswagen Golf", "Mazda 3", "Audi A1", "Volkswagen Golf", "Mazda 3", "Audi A1", "Volkswagen Golf", "Mazda 3", "Audi A1", "Volkswagen Golf", "Mazda 3", "Audi A1", "Volkswagen Golf", "Mazda 3", "Audi A1", "Volkswagen Golf", "Mazda 3",
-        "Audi A1", "Volkswagen Golf", "Mazda 3", "Audi A1", "Volkswagen Golf", "Mazda 3", "Audi A1", "Volkswagen Golf", "Mazda 3", "Audi A1", "Volkswagen Golf", "Mazda 3", "Audi A1", "Volkswagen Golf", "Mazda 3", "Audi A1", "Volkswagen Golf", "Mazda 3", "Audi A1", "Volkswagen Golf", "Mazda 3",
-        "Audi A1", "Volkswagen Golf", "Mazda 3", "Audi A1", "Volkswagen Golf", "Mazda 3", "Audi A1", "Volkswagen Golf", "Mazda 3", "Audi A1", "Volkswagen Golf", "Mazda 3", "Audi A1", "Volkswagen Golf", "Mazda 3", "Audi A1", "Volkswagen Golf", "Mazda 3", "Audi A1", "Volkswagen Golf", "Mazda 3",
-        "Audi A1", "Volkswagen Golf", "Mazda 3", "Audi A1", "Volkswagen Golf", "Mazda 3", "Audi A1", "Volkswagen Golf", "Mazda 3", "Audi A1", "Volkswagen Golf", "Mazda 3", "Audi A1", "Volkswagen Golf", "Mazda 3", "Audi A1", "Volkswagen Golf", "Mazda 3", "Audi A1", "Volkswagen Golf", "Mazda 3"
-    ]
     const [quantity, setQuantity] = useState(1);
-    const [productos, setProductos] = useState<CardRelProductProps[]>([]);
+
     const { isAuthenticated } = useSelector(selectAuth);
     const [showMoreApp, setShowMore] = useState(false);
     const [showModal, setShowModal] = useState(false);
-    const [isClient, setIsClient] = useState(false);
+    const [producto, setProducto] = useState<CurrentProduct>({})
 
     const [loading, setLoading] = useState(true);
 
 
     const dispatch = useDispatch()
     useEffect(() => {
-        setIsClient(true);
-    }, []);
+        console.log("esto es el producto desde el useEffect", producto);
+        
+       
+    }, [producto]);
 
-    useEffect(() => {
-        console.log(isClient);
-
-    }, [isClient]);
+  
 
     useEffect(() => {
         const fetchProductos = async () => {
             try {
-                const response = await fetch("../../../../api/productos");
-                const data = await response.json();
-                setProductos(data);
+                const {data} = await api.products.getByCode(productoId); //aqui se se le manda el code, de la url el ultimo elemento
+                setProducto(data);
+               console.log(data, "esto es la respuesta de productos relacionados desde el back");
+               
             } catch (error) {
                 console.error("Error cargando productos:", error);
-                setProductos([]);
+             
             } finally {
                 setLoading(false);
             }
@@ -54,12 +56,10 @@ const ProductDetail = () => {
         fetchProductos();
     }, []);
 
-    const handleAddToCart = (product) => {
-        dispatch(addToCart({ ...product, quantity }));
-    }
     
-
-
+    const handleAddToCart = useCallback((product: Producto, brandSelected: Equivalent) => {
+        dispatch(addToCart({ ...product, quantity, brand: brandSelected }));
+      }, [dispatch]);
 
     return (
         <div>
@@ -139,10 +139,10 @@ const ProductDetail = () => {
 
                     {/* Información del Producto */}
                     <div className="w-full md:w-3/5">
-                        <p className="text-primary font-regular text-sm">Compresor</p>
+                        {/* <p className="text-primary font-regular text-sm">{producto.item.category}</p>
                         <h2 className="text-foreground text-xl font-medium">
-                            CP5301 | AUDI A1 10PA15/10PA17C/DV13 4PK 117mm (Tucson/Sportage 2.0L 08-09, Rio 06-11, Cerato)
-                        </h2>
+                        {producto.item.full_name.length > 50 ? `${producto.item.full_name.substring(0, 70)}...` : producto.item.full_name}
+                        </h2> */}
                         {isAuthenticated ? <div>
                             <p className="mt-10 text-2xl font-semibold text-primary">$000.000</p>
                             <p className="text-foreground line-through font-thin">$000.000</p>
@@ -212,7 +212,7 @@ const ProductDetail = () => {
                             }
                             {/* 🔹 Contenedor para los dos botones en la misma fila */}
                             <div className="flex gap-2">
-                                {isAuthenticated ? <button onClick={()=>handleAddToCart()} className="border border-primary text-primary py-2 rounded-full font-bold hover:bg-primary transition w-1/2 text-[12px] py-3  hover:text-white">
+                                {isAuthenticated ? <button onClick={()=>handleAddToCart(producto?.item)} className="border border-primary text-primary py-2 rounded-full font-bold hover:bg-primary transition w-1/2 text-[12px] py-3  hover:text-white">
                                     Guardar en favoritos
                                 </button> : null}
                                 <button className="border border-primary text-primary py-2 rounded-full font-bold hover:bg-primary hover:text-white transition w-1/2 text-[12px] py-3">
@@ -238,7 +238,7 @@ const ProductDetail = () => {
                     <div>
                         <h3 className="font-normal text-md text-primary">OEM:</h3>
                         <ul className="list-disc list-inside text-gray-400 mt-2 text-xs columns-2">
-                            {oemList.slice(0, showMoreApp ? oemList.length : 30).map((oem, i) => (
+                            {producto?.oem?.slice(0, showMoreApp ? producto?.oem?.length : 30).map((oem: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | PromiseLikeOfReactNode | null | undefined, i: Key | null | undefined) => (
                                 <li key={i}>{oem}</li>
                             ))}
                         </ul>
@@ -247,7 +247,7 @@ const ProductDetail = () => {
                     <div>
                         <h3 className="font-normal text-md text-primary">Aplicación:</h3>
                         <ul className="list-disc list-inside text-gray-400 mt-2 text-xs columns-2">
-                            {oemList.slice(0, showMoreApp ? oemList.length : 30).map((oem, i) => (
+                            {producto?.applications?.slice(0, showMoreApp ?producto?.oem?.length : 30).map((oem, i) => (
                                 <li key={i}>{oem}</li>
                             ))}
                         </ul>
