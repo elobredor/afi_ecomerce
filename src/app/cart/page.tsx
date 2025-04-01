@@ -3,28 +3,35 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store/store";
-import { setCart, removeFromCart, updateQuantity } from "@/store/slices/cartSlice";
-import Image from "next/image";
+import { setCart,  updateQuantity } from "@/store/slices/cartSlice";
 import { selectAuth } from "@/store/slices/authSlice";
 import { useRouter } from "next/navigation";
+import CartSummary from "./components/CartSummary";
+import SuccessOrder from "./components/steps/SuccessOrder";
+import SelectDirection from "./components/steps/SelectDirection";
+import FacturationData from "./components/steps/FacturationData";
+import CartList from "./components/steps/CartList";
 export const dynamic = "force-dynamic"; // Forza que el middleware se ejecute
 
 export default function CartPage() {
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const dispatch = useDispatch();
   const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-  const totalCupo = 1000000
+  const totalCupo = 1000000;
   const [quantities, setQuantities] = useState<{ [key: number]: number }>({});
   const { isAuthenticated } = useSelector(selectAuth);
   const router = useRouter();
+  const [currentStep, setCurrentStep] = useState(1);
 
+  // Nuevos estados para los pasos adicionales
+  const [selectedAddress, setSelectedAddress] = useState<string | null>(null);
+  const [selectedBillingInfo, setSelectedBillingInfo] = useState<string | null>(null);
 
   useEffect(() => {
     if (!isAuthenticated) {
       router.push("/"); // Redirige si no está autenticado
     }
   }, [isAuthenticated, router]);
-
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -46,7 +53,6 @@ export default function CartPage() {
   }, [dispatch]);
 
   const handleQuantityChange = (id: number, newQuantity: number) => {
-    // debugger
     if (newQuantity < 1) return; // Evita cantidades menores a 1
 
     setQuantities((prev) => ({
@@ -60,133 +66,105 @@ export default function CartPage() {
   const calculateTotalLine = (price: number, quantity: number) => {
     return price * quantity;
   };
+
+  const nextStep = () => {
+    if (currentStep < 4) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const prevStep = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
+    // Dirección de ejemplo
+    const addresses = [
+      { id: "1", address: "Carrera 10 No 22 16", city: "Bogotá", isDefault: true },
+      { id: "2", address: "Calle 85 No 45-18", city: "Medellín", isDefault: false },
+    ];
+  
+    // Información de facturación de ejemplo
+    const billingInfoOptions = [
+      { id: "1", name: "Factura Electrónica", email: "correo@ejemplo.com", isDefault: true },
+      { id: "2", name: "Factura Física", address: "Carrera 10 No 22 16", isDefault: false },
+    ];
+
+  // Renderiza el contenido según el paso actual
+  const renderStepContent = () => {
+    switch (currentStep) {
+      case 1: 
+        return (
+          <CartList  calculateTotalLine={calculateTotalLine} cartItems={cartItems} handleQuantityChange={handleQuantityChange} quantities={quantities}/>
+        );
+
+      case 2: 
+        return (
+          <SelectDirection addresses={addresses} selectedAddress={selectedAddress} setSelectedAddress={setSelectedAddress} />
+        );
+
+      case 3: 
+        return (
+          <FacturationData billingInfoOptions={billingInfoOptions} selectedBillingInfo={selectedBillingInfo} setSelectedBillingInfo={setSelectedBillingInfo}/>
+        );
+
+      case 4: 
+        return (
+         <SuccessOrder totalPrice={totalPrice}/>
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  // Botones de navegación según el paso
+  const renderNavigationButtons = () => {
+    if (currentStep === 4) return null; // No mostrar botones en el paso final
+    
+    return (
+      <div className="flex justify-between mt-6">
+        {currentStep > 1 && (
+          <button 
+            onClick={prevStep}
+            className="border border-primary text-primary py-2 px-6 rounded-full hover:bg-gray-100"
+          >
+            Atrás
+          </button>
+        )}
+        <div className={`flex-1 ${currentStep > 1 ? 'text-right' : ''}`}>
+          <button 
+            onClick={nextStep}
+            disabled={
+              (currentStep === 1 && cartItems.length === 0) || 
+              (currentStep === 2 && !selectedAddress) ||
+              (currentStep === 3 && !selectedBillingInfo)
+            }
+            className={`bg-primary text-white py-2 px-10 rounded-full ${
+              ((currentStep === 1 && cartItems.length === 0) || 
+              (currentStep === 2 && !selectedAddress) ||
+              (currentStep === 3 && !selectedBillingInfo)) 
+                ? 'opacity-50 cursor-not-allowed' 
+                : ''
+            }`}
+          >
+            {currentStep === 3 ? 'Finalizar pedido' : 'Siguiente'}
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   return (
-    <div className="container flex gap-4 m-8 ">
-      <div className="w-2/3 p-4 border border-grey-300 rounded-md shadow-md gap-2">
-        <h1 className="text-primary text-700 font-semibold gap-2">Mi Carrito</h1>
-        <div className="border border-grey-500 mt-2"></div>
-        {cartItems.length === 0 ? (
-          <p className="font-semibold">Tu carrito está vacío.</p>
-        ) : (
-          cartItems.map((item) => (
-            <div key={item.id} className="flex justify-between p-2 m-2 rounded-md border border-grey-500 gap-2">
-              <Image
-                src="/articulos/compresor.png"
-                alt="Producto"
-                width={100}
-                height={400}
-                className="w-[100px] h-[100px] rounded-lg object-cover"
-              />
-              <div className="flex flex-col flex-1 ml-4">
-                <span>{item.name}</span>
-                <div className="flex gap-4 text-[12px] ">
-                  <p onClick={() => dispatch(removeFromCart(item.id))
-                  } className="text-[red] cursor-pointer">Eliminar | <span className="text-gray-500">Guardar para despues</span></p>
-                </div>
-
-                {/* Control de Cantidad */}
-                <div className="mt-4 flex items-center gap-2">
-                  <label className="font-semibold text-sm">Cantidad:</label>
-                  <button
-                    className="border border-primary px-3 py-1 rounded bg-primary text-white hover:bg-gray-100 hover:text-primary transition"
-                    onClick={() => handleQuantityChange(item.id, (quantities[item.id] || item.quantity) - 1)}
-                  >
-                    −
-                  </button>
-
-                  <input
-                    type="number"
-                    className="border border-gray-300 text-center w-16 h-9 rounded text-sm appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                    value={quantities[item.id] || item.quantity}
-                    onChange={(e) => {
-                      const value = Number(e.target.value);
-                      if (value >= 1) handleQuantityChange(item.id, value);
-                    }}
-                  />
-
-                  <button
-                    className="border border-primary px-3 py-1 rounded bg-primary text-white hover:bg-gray-100 hover:text-primary transition"
-                    onClick={() => handleQuantityChange(item.id, (quantities[item.id] || item.quantity) + 1)}
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-              <div className="flex items-center">
-                <h1 className="font-bold"> ${calculateTotalLine(item.price, item.quantity).toLocaleString("es-CO")}</h1>
-              </div>
-              {/* <button
-                onClick={() => dispatch(removeFromCart(item.id))}
-                className="text-red-500"
-              >
-                Eliminar
-              </button> */}
-            </div>
-          ))
-        )}
+    <div className="container flex flex-col gap-4 m-8">
+      <div className="flex gap-4">
+        <div className="w-2/3 p-4 border border-grey-300 rounded-md shadow-md gap-2">
+          {renderStepContent()}
+          {renderNavigationButtons()}
+        </div>
+        <CartSummary cartItems={cartItems} calculateTotalLine={calculateTotalLine}   totalCupo={totalCupo} totalPrice={totalPrice} />
       </div>
-      <div className="w-1/3 p-4 border border-grey-300 rounded-md shadow-md gap-2">
-        {/* COntenedor de info del cliente */}
-        <h1 className="text-primary text-700 font-semibold gap-2 mt-2">Información del Cliente</h1>
-        <div className="border border-grey-500 mt-2 mb-2"></div>
-        <div className="text-black">
-          <div className="flex justify-between"><p className="font-semibold text-[16px]">Nombre de cliente:</p>
-            <span className="font-normal text-[14px]">Pedro Perez</span>
-          </div>
-          <div className="flex justify-between"><p className="font-semibold text-[16px]">Dirección:</p>
-            <span className="font-normal text-[14px]">Carrera 10 No 22 16</span>
-          </div>
-          <div className="flex justify-between"><p className="font-semibold text-[16px]">Cupo asignado:</p>
-            <span className="font-normal text-[14px]">$25.000.000</span>
-          </div>
-          <div className="flex justify-between"><p className="font-semibold text-[16px]">Cupo Disponible:</p>
-            <span className="font-normal text-[14px] font-semibold">${totalCupo.toLocaleString("es-CO")}</span>
-          </div>
-        </div>
-        <div className="border border-grey-500 mt-2 "></div>
-
-        <h1 className="text-primary text-700 font-semibold gap-2 mt-2">Resumen del Carrito</h1>
-        <div className="border border-grey-500 mt-2"></div>
-        {cartItems.length === 0 ? (
-          <p className="text-center">Tu carrito está vacío.</p>
-        ) : (
-          cartItems.map((item) => (
-            <div key={item.id} className="flex justify-between p-1 m-1 text-sm text-black">
-              <div className="flex flex-col ">
-                <span>{item.name}</span>
-              </div>
-              <div className="flex items-center">
-                <h1> ${calculateTotalLine(item.price, item.quantity).toLocaleString("es-CO")}</h1>
-              </div>
-              {/* <button
-                onClick={() => dispatch(removeFromCart(item.id))}
-                className="text-red-500"
-              >
-                Eliminar
-              </button> */}
-            </div>
-          ))
-        )}
-        <div className="border border-grey-500 mt-1 "></div>
-        <div className=" flex p-1 m-1 justify-between" >
-          <h1 className=" text-black">Subtotal</h1>
-          <h1 className="font-regular text-black">${totalPrice.toLocaleString("es-CO")}</h1>
-        </div>
-        <div className="border border-grey-500 mt-1"></div>
-        <div className=" flex p-1 m-1 justify-between" >
-          <h1 className="font-bold text-2xl  text-black">TOTAL</h1>
-          <h1 className="font-bold text-2xl  text-primary">${totalPrice.toLocaleString("es-CO")}</h1>
-        </div>
-        {totalPrice > totalCupo ?
-
-          <p className="text-[red] text-sm  font-regular text-center">Su pedido es mayor al cupo disponible, por favor ajuste las cantidades.</p> : null
-        }
-
-        <div className="flex items-center justify-center pt-3">
-          <button className="bg-primary text-white w-[80%] py-2 px-10 rounded-full text-sm">Siguiente</button>
-        </div>
-      </div>
-
     </div>
   );
 }

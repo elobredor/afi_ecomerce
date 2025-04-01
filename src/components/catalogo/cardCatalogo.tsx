@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 const CardCatalogo: React.FC<CardProps> = ({ imageSrc, text, id, level }) => {
-  console.log(imageSrc, "esto es la url de la imagen");
+
   
   const router = useRouter();
   const dispatch = useDispatch();

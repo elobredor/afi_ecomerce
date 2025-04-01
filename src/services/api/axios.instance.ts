@@ -25,9 +25,7 @@ axiosInstance.interceptors.response.use(
 	(response) => response,
 	async (error) => {
 		if (error.response?.status === 406 || error.response?.status === 401) {
-			storage.clearAuth();
-			alert("Sesión expirada");
-			window.location.href = "/auth/login";
+	
 		}
 		return Promise.reject(error);
 	}

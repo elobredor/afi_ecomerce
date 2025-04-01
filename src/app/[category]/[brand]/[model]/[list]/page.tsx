@@ -9,6 +9,7 @@ import { addToCart } from "@/store/slices/cartSlice";
 import { api } from "@/services/api";
 import { usePathname } from "next/navigation";
 import { CurrentProduct, Equivalent, Producto} from "@/data";
+import { formatCurrency } from "@/utils/formatters";
 
 
 
@@ -93,7 +94,7 @@ const ProductDetail = () => {
 
                                     {/* 📸 Imagen ampliada */}
                                     <Image
-                                        src="/articulos/compresor.png"
+                          src={producto.item?.image ? `https://autofrioimportaciones.com/images/productos/${producto.item?.image}` : "/placeholder.jpg"} 
                                         alt="Imagen ampliada"
                                         width={500}
                                         height={500}
@@ -104,7 +105,7 @@ const ProductDetail = () => {
                         )}
                         <div className="flex justify-center items-center">
                             <Image
-                                src="/articulos/compresor.png"
+                           src={producto.item?.image ? `https://autofrioimportaciones.com/images/productos/${producto.item?.image}` : "/placeholder.jpg"} 
                                 alt="Producto"
                                 width={350}
                                 height={400}
@@ -112,13 +113,14 @@ const ProductDetail = () => {
                             />
                         </div>
                         <div className="flex justify-end mt-[-40px] mr-10">
-                            <Image
-                                src="/logos/Autofrio.png"
+                            {/* Logo de la marca en la esquina inferior derecha */}
+                            {/* <Image
+                            src={producto.item?.image ? `https://autofrioimportaciones.com/images/productos/${producto.item?.image}` : "/placeholder.jpg"} 
                                 alt="Producto"
                                 width={80}
                                 height={100}
                                 className="rounded-lg object-cover"
-                            />
+                            /> */}
                         </div>
                         {/* Galería de imágenes */}
                         <div className="flex items-center justify-center gap-2 mt-6">
@@ -139,32 +141,22 @@ const ProductDetail = () => {
 
                     {/* Información del Producto */}
                     <div className="w-full md:w-3/5">
-                        {/* <p className="text-primary font-regular text-sm">{producto.item.category}</p>
+                        <p className="text-primary font-regular text-sm">{producto.item?.category}</p>
                         <h2 className="text-foreground text-xl font-medium">
-                        {producto.item.full_name.length > 50 ? `${producto.item.full_name.substring(0, 70)}...` : producto.item.full_name}
-                        </h2> */}
+                     {   producto.item?.full_name}
+                        {/* {producto.item?.full_name?.length > 50 ? `${producto.item?.full_name?.substring(0, 70)}...` : producto?.item?.full_name} */}
+                        </h2>
                         {isAuthenticated ? <div>
-                            <p className="mt-10 text-2xl font-semibold text-primary">$000.000</p>
-                            <p className="text-foreground line-through font-thin">$000.000</p>
+                            <p className="mt-10 text-2xl font-semibold text-primary">{ formatCurrency(producto.item?.price) }</p>
+                            {/* <p className="text-foreground line-through font-thin">$000.000</p> */}
                         </div> : null}
                         <div className="border-t-[1px] border-gray-150 my-4"></div>
                         {/* Referencias cruzadas */}
-                        <p className="font-semibold mt-4 font-medium text-sm text-foreground">Productos Equivalentes:</p>
+                        <p className=" mt-4 text-sm text-foreground">Productos Equivalentes:</p>
                         <div className="flex flex-wrap gap-2 mt-2">
-                            {[
-                                { logo: "/logos/autofrio.png", price: "$33.000.000", codigo: "CP5030" },
-                                { logo: "/logos/Autofrio.png", price: "$33.000.000", codigo: "CP5031" },
-                                { logo: "/logos/denso.png", price: "$33.000.000", codigo: "CP5032" },
-                                { logo: "/logos/sanden.png", price: "$33.000.000", codigo: "CP5033" },
-                            ].map((brand, i) => (
+                            {producto.item?.equivalents.map((brand, i) => (
                                 <div key={i} className=" cursor-pointer hover:scale-105 hover:shadow-lg transition  flex items-center text-md px-4 py-1 rounded-sm shadow-md min-h-10">
-                                    <Image
-                                        src={brand.logo}
-                                        alt={brand.codigo}
-                                        width={50}
-                                        height={50}
-                                        className="object-contain"
-                                    />
+                                      <Image   src={brand.logo? `https://autofrioimportaciones.com/images/productos/${brand.logo}` : "/placeholder.jpg"}  alt={brand.codigo} width={82} height={32} className="w-24 h-8 rounded-md object-contain" />
                                     <span className="text-primary text-[10px] ml-[10px]">{isAuthenticated ? brand.price : brand.codigo}</span>
                                 </div>
                             ))}

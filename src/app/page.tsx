@@ -54,9 +54,18 @@ export default function Home() {
     { src: "/banners/bannerhome.png", alt: "Imagen 2" },
     { src: "/banners/bannerhome.png", alt: "Imagen 3" },
   ];
+ 
 
   const filtersData = [
-    { name: "Categoría", options: [{ label: "Compresores", value: "Compresores" }, { label: "Evaporadores", value: "Evaporadores" }] },
+    {
+      name: "Categoría",
+      options: categories
+        ? categories.map((category) => ({
+            label: category.text,
+            value: category.id,
+          }))
+        : [],
+    },
     { name: "Marca", options: [{ label: "Toyota", value: "Toyota" }, { label: "Ford", value: "Ford" }] },
     { name: "Linea", options: [{ label: "TXL 3.1", value: "txl" }, { label: "Focus", value: "Focus" }] },
     { name: "Modelo", options: [{ label: "2010", value: "2020" }, { label: "2020", value: "2010" }] },
