@@ -1,10 +1,13 @@
+import { RootState } from '@/store/store';
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 interface CartItem {
   id: string;
   name: string;
   price: number;
   quantity: number;
+  
 }
 
 interface CartSummaryProps {
@@ -12,23 +15,22 @@ interface CartSummaryProps {
   totalCupo: number;
   totalPrice: number;
   calculateTotalLine: (price: number, quantity: number) => number;
+  nextStep: ()=>void;
 }
 
-const CartSummary: React.FC<CartSummaryProps> = ({ cartItems, totalCupo, totalPrice, calculateTotalLine }) => {
+const CartSummary: React.FC<CartSummaryProps> = ({ cartItems, totalCupo, totalPrice, calculateTotalLine, nextStep }) => {
+  const user = useSelector((state: RootState) => state.auth.user);
   return (
-    <div className="w-1/3 p-4 border border-grey-300 rounded-md shadow-md gap-2">
+    <div className="w-1/3 p-4 border border-grey-300 rounded-md shadow-md gap-2 h-1/3">
       {/* Contenedor de info del cliente */}
       <h1 className="text-primary font-semibold gap-2 mt-2">Información del Cliente</h1>
       <div className="border border-grey-500 mt-2 mb-2"></div>
       <div className="text-black">
         <div className="flex justify-between">
           <p className="font-semibold text-[16px]">Nombre de cliente:</p>
-          <span className="font-normal text-[14px]">Pedro Perez</span>
+          <span className="font-normal text-[14px]">{user?.name}</span>
         </div>
-        <div className="flex justify-between">
-          <p className="font-semibold text-[16px]">Dirección:</p>
-          <span className="font-normal text-[14px]">Carrera 10 No 22 16</span>
-        </div>
+     
         <div className="flex justify-between">
           <p className="font-semibold text-[16px]">Cupo asignado:</p>
           <span className="font-normal text-[14px]">$25.000.000</span>
@@ -79,7 +81,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({ cartItems, totalCupo, totalPr
       
       {/* Botón */}
       <div className="flex items-center justify-center pt-3">
-        <button className="bg-primary text-white w-[80%] py-2 px-10 rounded-full text-sm">
+        <button onClick={nextStep} className="bg-primary text-white w-[80%] py-2 px-10 rounded-full text-sm">
           Siguiente
         </button>
       </div>

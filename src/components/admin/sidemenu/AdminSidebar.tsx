@@ -12,7 +12,7 @@ const menuItems = [
   { name: "Mis Favoritos", path: "/portal/favoritos" },
   { name: "Devoluciones", path: "/portal/devoluciones" },
   { name: "Direcciones de envío", path: "/portal/direcciones" },
-  { name: "Datos de Facturación", path: "/portal/facturacion" },
+  { name: "Datos de Facturación", path: "/portal/facturacion-datos" },
 ];
 
 const AdminSidebar = () => {

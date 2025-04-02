@@ -1,10 +1,11 @@
 {
   "/page": "app/page.js",
-  "/[category]/[brand]/page": "app/[category]/[brand]/page.js",
+  "/cart/page": "app/cart/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/contacto/page": "app/contacto/page.js",
   "/catalogo/page": "app/catalogo/page.js",
+  "/nosotros/page": "app/nosotros/page.js",
   "/[category]/page": "app/[category]/page.js",
-  "/[category]/[brand]/[model]/page": "app/[category]/[brand]/[model]/page.js",
-  "/[category]/[brand]/[model]/[list]/page": "app/[category]/[brand]/[model]/[list]/page.js",
-  "/cart/page": "app/cart/page.js"
+  "/[category]/[brand]/page": "app/[category]/[brand]/page.js",
+  "/[category]/[brand]/[model]/page": "app/[category]/[brand]/[model]/page.js"
 }

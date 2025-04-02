@@ -1,73 +1,93 @@
+import DeliveryModal from '@/components/common/DeliveryModal';
 import React, { useState } from 'react';
 
-interface Address {
-  id: string;
-  address: string;
-  city: string;
-  isDefault?: boolean;
-}
-
-interface SelectDirectionProps {
-  addresses: Address[];
-  selectedAddress: string | null;
-  setSelectedAddress: (addressId: string | null) => void;
-}
-
-const SelectDirection: React.FC<SelectDirectionProps> = ({ addresses, selectedAddress, setSelectedAddress}) => {
-
+const SelectDelivery = ({ addresses, selectedAddress, setSelectedAddress }) => {
+  const [deliveryType, setDeliveryType] = useState('domicilio');
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   return (
+    <>
+     <DeliveryModal
+        // directions={directions}
+        visible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
+        // setDirectionSelected={(direction) => {
+        //   setDirectionSelected(direction);
+        //   if (sellerDirection && isDelivery) {
+        //     calculateDeliveryPrice();
+        //   }
+        // }}
+        // refreshDirections={getDirections}
+      />
+  
     <div>
-      <h1 className="text-primary font-semibold gap-2">Dirección de Envío</h1>
-      <div className="border border-gray-500 mt-2 mb-4"></div>
-
+      <h1 className="text-primary font-semibold">Selecciona tipo de entrega</h1>
+      <div className="border border-gray-300 mt-2 mb-4"></div>
+      
+      {/* Opciones de entrega */}
       <div className="space-y-4">
-        {addresses.map((addr) => (
-          <div
-            key={addr.id}
-            className={`p-4 border rounded-md cursor-pointer ${
-              selectedAddress === addr.id ? 'border-primary bg-blue-50' : 'border-gray-300'
-            }`}
-            onClick={() => setSelectedAddress(addr.id)}
-          >
-            <div className="flex items-start gap-3">
-              <div className="mt-1">
-                <div
-                  className={`w-5 h-5 rounded-full border flex items-center justify-center ${
-                    selectedAddress === addr.id ? 'border-primary' : 'border-gray-400'
-                  }`}
-                >
-                  {selectedAddress === addr.id && <div className="w-3 h-3 rounded-full bg-primary"></div>}
-                </div>
-              </div>
-              <div>
-                <p className="font-medium">{addr.address}</p>
-                <p className="text-gray-600 text-sm">{addr.city}</p>
-                {addr.isDefault && (
-                  <span className="text-xs bg-gray-100 px-2 py-1 rounded-full mt-1 inline-block">
-                    Dirección predeterminada
-                  </span>
-                )}
-              </div>
-            </div>
-          </div>
-        ))}
+        <div
+          className={`p-4 border rounded-md cursor-pointer ${deliveryType === 'domicilio' ? 'border-primary bg-blue-50' : 'border-gray-300'}`}
+          onClick={() => setDeliveryType('domicilio')}
+        >
+          <input type="radio" checked={deliveryType === 'domicilio'} readOnly className="mr-2" />
+          <span className="font-medium">A domicilio</span>
+          <p className="text-gray-600 text-sm">Selecciona tu dirección de envío</p>
+        </div>
 
-        <button className="flex items-center text-primary font-medium gap-2 mt-4">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
-          Agregar nueva dirección
-        </button>
+        {deliveryType === 'domicilio' && (
+        <div className="mt-6">
+          {/* Selección de dirección */}
+          <h2 className="text-primary font-semibold">Selecciona una dirección de envío</h2>
+          <div className="border border-gray-300 mt-2 mb-4"></div>
+          {addresses.map((addr) => (
+            <div
+              key={addr.id}
+              className={`p-4 border rounded-md cursor-pointer ${selectedAddress === addr.id ? 'border-primary bg-blue-50' : 'border-gray-300'}`}
+              onClick={() => setSelectedAddress(addr.id)}
+            >
+              <input type="radio" checked={selectedAddress === addr.id} readOnly className="mr-2" />
+              <span className="font-medium">{addr.address}</span>
+              <p className="text-gray-600 text-sm">{addr.city}</p>
+            </div>
+          ))}
+          <button   onClick={() => setIsModalVisible(true)} className="bg-primary text-white  py-2 my-4 px-10 rounded-full text-sm">+ Agregar nueva dirección</button>
+        
+          {/* Selección de transportista */}
+          <h2 className="text-primary font-semibold mt-6">Selecciona transportadora</h2>
+          <div className="border border-gray-300 mt-2 mb-4"></div>
+          <div className="space-y-2">
+            <label className="flex items-center cursor-pointer">
+              <input type="radio" name="transport" className="mr-2" /> Coordinadora
+            </label>
+            <label className="flex items-center cursor-pointer">
+              <input type="radio" name="transport" className="mr-2" /> Deprisa
+            </label>
+            <label className="flex items-center cursor-pointer">
+              <input type="radio" name="transport" className="mr-2" /> Blue
+            </label>
+            <label className="flex items-center cursor-pointer">
+              <input type="radio" name="transport" className="mr-2" /> Envia
+            </label>
+          </div>
+        </div>
+      )}
+
+        <div
+          className={`p-4 border rounded-md cursor-pointer ${deliveryType === 'bodega' ? 'border-primary bg-blue-50' : 'border-gray-300'}`}
+          onClick={() => setDeliveryType('bodega')}
+        >
+          <input type="radio" checked={deliveryType === 'bodega'} readOnly className="mr-2" />
+          <span className="font-medium">Recoger en bodega</span>
+          <p className="text-gray-600 text-sm">Acércate a uno de nuestros puntos de recolección</p>
+        </div>
       </div>
+
+      {/* Secciones adicionales si se elige "Domicilio" */}
+     
     </div>
+    </>
   );
 };
 
-export default SelectDirection;
+export default SelectDelivery;

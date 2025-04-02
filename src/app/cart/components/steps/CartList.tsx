@@ -8,6 +8,7 @@ interface CartItem {
   name: string;
   price: number;
   quantity: number;
+  image:string;
 }
 
 interface CartListProps {
@@ -30,7 +31,7 @@ const CartList: React.FC<CartListProps> = ({ cartItems, quantities, handleQuanti
         cartItems.map((item) => (
           <div key={item.id} className="flex justify-between p-2 m-2 rounded-md border border-grey-500 gap-2">
             <Image
-              src="/articulos/compresor.png"
+           src={item?.image ? `https://autofrioimportaciones.com/images/productos/${item?.image}` : "/placeholder.jpg"} 
               alt="Producto"
               width={100}
               height={100}
