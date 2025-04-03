@@ -38,6 +38,7 @@ const ProductDetail = () => {
        
     }, [producto]);
 
+    
   
 
     useEffect(() => {
@@ -61,6 +62,7 @@ const ProductDetail = () => {
     const handleAddToCart = useCallback((product: Producto, brandSelected: Equivalent) => {
         dispatch(addToCart({ ...product, quantity, brand: brandSelected }));
       }, [dispatch]);
+
 
     return (
         <div>

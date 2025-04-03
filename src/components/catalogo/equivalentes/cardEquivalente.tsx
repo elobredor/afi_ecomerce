@@ -5,7 +5,6 @@ import { FaShoppingCart } from "react-icons/fa";
 import { Eye } from "lucide-react";
 import { selectAuth } from "@/store/slices/authSlice";
 import { useSelector } from "react-redux";
-import { useRouter } from "next/navigation";
 import { formatCurrency } from "@/utils/formatters";
 
 interface CardProductProps {
