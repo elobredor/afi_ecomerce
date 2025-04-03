@@ -1,3 +1,4 @@
+import { storage } from "@/utils/storage";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 
@@ -7,6 +8,7 @@ interface User {
   name: string;
   email: string;
   token: string;
+  user:string
 }
 
 // Estado inicial
@@ -38,12 +40,14 @@ const authSlice = createSlice({
       state.isAuthenticated = true;
       localStorage.setItem("user", JSON.stringify(action.payload)); // Guardar en localStorage
       Cookies.set("token", action.payload.token, { expires: 7, secure: true, sameSite: "Strict" });
+      // window.location.href = "/"; 
 
     },
     logout: (state) => {
       state.user = null;
       state.isAuthenticated = false;
       localStorage.removeItem("user"); // Eliminar del localStorage
+      storage.clearAuth();
     },
   },
 });

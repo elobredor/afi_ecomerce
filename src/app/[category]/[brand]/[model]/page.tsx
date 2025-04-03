@@ -9,6 +9,7 @@ import { setCategoria, setLinea, setMarca, setProducto } from '@/store/slices/na
 import ProductEquivalent from '@/components/catalogo/equivalentes/cardEquivalente';
 import { usePathname, useRouter } from 'next/navigation';
 import { api } from '@/services/api';
+import { Producto } from '@/data';
 
 interface Equivalent {
   logo: string;
@@ -16,21 +17,7 @@ interface Equivalent {
   price: number;
 }
 
-interface Producto {
-  id: number;
-  code: string;
-  name: string;
-  full_name: string;
-  description: string;
-  category: string;
-  brand: string;
-  line: string;
-  price: string;
-  discountedprice: string;
-  image: string;
-  isavailable: number;
-  equivalents: Equivalent[];
-}
+
 
 const ModelPage = () => {
   const router = useRouter();

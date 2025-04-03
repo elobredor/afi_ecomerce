@@ -67,8 +67,15 @@ const FacturationData: React.FC<FacturationDataProps> = ({ billingInfoOptions, s
 
       <div className="space-y-4">
       {sampleBillingData.map((option) => (
-        <BillingCard key={option.id} billing={option} onDelete={()=>console.log("borrrar")} onEdit={()=>console.log("editando")
-        } />
+        <BillingCard
+          isSelectable={true}
+          isSelected={selectedBillingInfo?.id === option?.id}
+          onSelect={() => setSelectedBillingInfo(option)}
+          key={option.id}
+          billing={option}
+          onDelete={() => console.log(`Deleting billing info with id: ${option.id}`)}
+          onEdit={() => console.log(`Editing billing info with id: ${option.id}`)}
+        />
       ))}
 
       <button className="flex items-center text-primary font-medium gap-2 mt-4">

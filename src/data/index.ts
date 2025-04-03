@@ -17,7 +17,20 @@ export interface Producto {
     image: string;
     isavailable: number;
     equivalents: Equivalent[];
+    imp_sales: string;
+    imp_sales_code: string;
   
+}
+
+export interface CartItem {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  image:string;
+  imp_sales: string;
+  imp_sales_code: string;
+  code:string; 
 }
 export interface CurrentProduct {
     characteristic: Characteristic[]

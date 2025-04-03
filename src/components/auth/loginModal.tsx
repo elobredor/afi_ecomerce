@@ -26,18 +26,16 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
     e.preventDefault();
     try {
       const {data} = await api.user.login({ email, password });     
-       
       const format = { 
         id: data.userAct.pgu_id_usuario,
         name: data.userAct.pgu_name_user,
         token: data.accesToken,
         email: data.userAct.pgu_email,
+        user:data.userAct.pgu_code_user, 
       }
       dispatch(login(format)); 
       storage.setAuth(data.userAct, data.accessToken);
-    
-        // dispatch(login(fakeUser)); // ✅ Guardar usuario en Redux
-        onClose(); // ✅ Cerrar modal después de iniciar sesión
+      onClose(); 
       
     } catch (error) {
       console.log(error, "ERROR EN LOGIN");

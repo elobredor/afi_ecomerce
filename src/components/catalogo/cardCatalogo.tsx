@@ -22,9 +22,11 @@ const CardCatalogo: React.FC<CardProps> = ({ imageSrc, text, id, level }) => {
     console.log("Antes de dispatch:", { currentCategory, currentBrand, currentLine });
     
     // Normalizar `text` quitando espacios o reemplazándolos por `-` y reemplazando `/` por `-`
-    console.log("esto es esto", text);
+   
     
-    const cleanText = text.trim().replace(/\s+/g, '-').replace(/\//g, '-');
+    const cleanText = text.trim().replace(/\s+/g, '-').replace(/\//g, '-') ;
+
+    
     // Identificar en qué nivel estamos y despachar la acción correcta
     if (level === "categoria") {
       dispatch(setCategoria({ id, name: cleanText }));

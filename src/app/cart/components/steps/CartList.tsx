@@ -2,14 +2,9 @@ import React from 'react';
 import Image from 'next/image';
 import { useDispatch } from 'react-redux';
 import {  removeFromCart } from "@/store/slices/cartSlice";
+import { CartItem } from '@/data';
 
-interface CartItem {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  image:string;
-}
+
 
 interface CartListProps {
   cartItems: CartItem[];
@@ -77,6 +72,7 @@ const CartList: React.FC<CartListProps> = ({ cartItems, quantities, handleQuanti
             <div className="flex items-center">
               <h1 className="font-bold">${calculateTotalLine(item.price, item.quantity).toLocaleString("es-CO")}</h1>
             </div>
+          
           </div>
         ))
       )}

@@ -28,8 +28,6 @@ const ModelosPage = () => {
       const response = await api.categories.getAll(nameCategory)
    
 
-console.log(response.data, 'desde categoria ');
-
       
     setModelos(response.data.map((modelo: any) => ({
         id: modelo.mfa_id,

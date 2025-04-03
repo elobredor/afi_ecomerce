@@ -3,7 +3,7 @@ import axiosInstance from "./axios.instance";
 export const userService = {
 	login: async (credentials: { email: string; password: string }) => {
 		const format =	{"pgu_code_user": credentials.email, "pgu_pass": credentials.password }; 
-		const response = await axiosInstance.post("/login", format);
+		const response = await axiosInstance.post("/loginafi", format);
 		return response?.data;
 	},
 	loginByCode: async (credentials: { email: string; userCode: string }) => {

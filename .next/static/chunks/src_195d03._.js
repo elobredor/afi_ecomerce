@@ -57,7 +57,6 @@ const CardCatalogo = ({ imageSrc, text, id, level })=>{
             currentLine
         });
         // Normalizar `text` quitando espacios o reemplazándolos por `-` y reemplazando `/` por `-`
-        console.log("esto es esto", text);
         const cleanText = text.trim().replace(/\s+/g, '-').replace(/\//g, '-');
         // Identificar en qué nivel estamos y despachar la acción correcta
         if (level === "categoria") {
@@ -141,7 +140,7 @@ const CardCatalogo = ({ imageSrc, text, id, level })=>{
                     className: "card-image p-8 mt-3"
                 }, void 0, false, {
                     fileName: "[project]/src/components/catalogo/cardCatalogo.tsx",
-                    lineNumber: 80,
+                    lineNumber: 82,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$1$2e$6_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -151,23 +150,23 @@ const CardCatalogo = ({ imageSrc, text, id, level })=>{
                         children: text
                     }, void 0, false, {
                         fileName: "[project]/src/components/catalogo/cardCatalogo.tsx",
-                        lineNumber: 88,
+                        lineNumber: 90,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/components/catalogo/cardCatalogo.tsx",
-                    lineNumber: 87,
+                    lineNumber: 89,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/components/catalogo/cardCatalogo.tsx",
-            lineNumber: 79,
+            lineNumber: 81,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/components/catalogo/cardCatalogo.tsx",
-        lineNumber: 78,
+        lineNumber: 80,
         columnNumber: 5
     }, this);
 };

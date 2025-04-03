@@ -1,8 +1,6 @@
 "use client"
 
-
-import { CircleDollarSign } from "lucide-react";
-
+import { CircleDollarSign, Check } from "lucide-react";
 
 // Define the BillingData interface if not already imported
 interface BillingData {
@@ -25,20 +23,42 @@ interface BillingCardProps {
   onDelete: () => void;
   isSelectable?: boolean;
   isSelected?: boolean;
+  onSelect?: (billing: BillingData) => void;
 }
 
-export function BillingCard({ 
-  billing, 
-  onEdit, 
-  onDelete, 
+export function BillingCard({
+  billing,
+  onEdit,
+  onDelete,
   isSelectable = false,
-  isSelected = false
+  isSelected = false,
+  onSelect
 }: BillingCardProps) {
+  const handleCardClick = () => {
+    if (isSelectable && onSelect) {
+      onSelect(billing);
+    }
+  };
+
   return (
-    <div className="relative rounded-lg bg-card p-4 text-card-foreground border border-gray-300">
+    <div 
+      className={`relative rounded-lg bg-card p-4 text-card-foreground border ${
+        isSelected 
+          ? 'border-primary' 
+          : 'border-gray-300'
+      } ${isSelectable ? 'cursor-pointer' : ''}`}
+      onClick={handleCardClick}
+    >
       <div className="flex items-start justify-between">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
+            {isSelectable && (
+              <div className={`flex h-5 w-5 items-center justify-center rounded-full border ${
+                isSelected ? 'border-primary bg-primary/10' : 'border-gray-300'
+              }`}>
+                {isSelected && <div className="h-2.5 w-2.5 rounded-full bg-primary" />}
+              </div>
+            )}
             <h3 className="font-semibold">{billing.name}</h3>
             {billing.isPrimary && !isSelectable && (
               <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
@@ -46,22 +66,28 @@ export function BillingCard({
               </span>
             )}
           </div>
-          <div className={`flex ${isSelectable ? 'flex-col space-y-1' : 'gap-4'}`}>
+          <div className="flex gap-4">
             <p className="text-sm text-muted-foreground">NIT {billing.nit}</p>
             <p className="text-sm text-muted-foreground">{billing.address}, {billing.city}</p>
             <p className="text-sm text-muted-foreground">{billing.phone} | {billing.email}</p>
-
+            
             {!isSelectable && (
               <>
                 <button
                   className="text-sm font-medium text-blue-600 hover:underline"
-                  onClick={onEdit}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onEdit();
+                  }}
                 >
                   Editar datos
                 </button>
                 <button
                   className="text-sm font-medium text-red-600 hover:underline"
-                  onClick={onDelete}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDelete();
+                  }}
                 >
                   Eliminar
                 </button>
@@ -70,7 +96,7 @@ export function BillingCard({
           </div>
         </div>
       </div>
-
+      
       <BillingCardStats
         quota={billing.quota}
         totalBilling={billing.totalBilling}
@@ -88,9 +114,9 @@ interface BillingCardStatsProps {
   isCompact?: boolean;
 }
 
-function BillingCardStats({ 
-  quota, 
-  totalBilling, 
+function BillingCardStats({
+  quota,
+  totalBilling,
   availableQuota,
   isCompact = false
 }: BillingCardStatsProps) {
@@ -102,9 +128,26 @@ function BillingCardStats({
 
   if (isCompact) {
     return (
-      <div className="mt-2 flex justify-between text-sm">
-        <span>Cupo disponible:</span>
-        <span className="font-medium text-primary">{formatCurrency(availableQuota)}</span>
+      <div className="mt-4 grid grid-cols-3 gap-4 rounded-lg bg-[#E8F0FF] p-4">
+        <div className="space-y-1">
+          <p className="text-sm font-medium">Cupo</p>
+          <div className="flex items-center gap-1">
+            <CircleDollarSign className="h-5 w-5" />
+            <span className="font-semibold">{formatCurrency(quota)}</span>
+          </div>
+        </div>
+        <div className="space-y-1">
+          <p className="text-sm font-medium">Total cartera</p>
+          <div className="flex items-center gap-1">
+            <span className="font-semibold">{formatCurrency(totalBilling)}</span>
+          </div>
+        </div>
+        <div className="space-y-1">
+          <p className="text-sm font-medium">Cupo disponible</p>
+          <div className="flex items-center gap-1">
+            <span className="font-semibold text-primary">{formatCurrency(availableQuota)}</span>
+          </div>
+        </div>
       </div>
     );
   }
@@ -114,7 +157,7 @@ function BillingCardStats({
       <div className="space-y-1">
         <p className="text-sm font-medium">Cupo</p>
         <div className="flex items-center gap-1">
-          <CircleDollarSign />
+          <CircleDollarSign className="h-5 w-5" />
           <span className="font-semibold">{formatCurrency(quota)}</span>
         </div>
       </div>

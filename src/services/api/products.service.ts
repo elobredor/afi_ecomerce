@@ -13,7 +13,6 @@ export const productService = {
 	}
 
 	
-
 	// getProductById: async (id: string) => {
 	// 	const response = await axiosInstance.get(`/producto/get/${id}`);
 	// 	return response?.data?.data;
