@@ -5,7 +5,6 @@ export const LineService = {
 		// Convertir '-' a '/' y '_' a espacios en los parámetros
 		categoryname = categoryname.replace(/-/g, '/').replace(/_/g, ' ');
 		brandname = brandname.replace(/-/g, '/').replace(/_/g, ' ');
-		
 
 		const { data } = await axiosInstance.post(`/articlesLine`, { brandname, categoryname});
 		return data;
