@@ -24,7 +24,7 @@ const CardCatalogo: React.FC<CardProps> = ({ imageSrc, text, id, level }) => {
     // Normalizar `text` quitando espacios o reemplazándolos por `-` y reemplazando `/` por `-`
    
     
-    const cleanText = text.trim().replace(/\s+/g, '-').replace(/\//g, '-') ;
+    const cleanText = text.trim().replace(/\s+/g, '_').replace(/\//g, '-');
 
     
     // Identificar en qué nivel estamos y despachar la acción correcta
@@ -47,7 +47,7 @@ const CardCatalogo: React.FC<CardProps> = ({ imageSrc, text, id, level }) => {
     if (pendingNavigation) {
       // Normalizar todos los textos de forma consistente
       const normalizeText = (text) => {
-        return text ? text.trim().replace(/\s+/g, '-').replace(/\//g, '-') : '';
+        return text ? text.trim().replace(/\s+/g, '_').replace(/\//g, '-') : '';
       };
       
       const normalizedText = normalizeText(text);

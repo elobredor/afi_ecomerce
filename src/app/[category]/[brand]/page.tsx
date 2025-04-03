@@ -49,6 +49,7 @@ const MarcasPage = () => {
 
   return (
     <div>
+   
       <div className={styles.catalogContainer}>
         <div className={styles.breadcrumbWrapper}>
           <Breadcrumb />
