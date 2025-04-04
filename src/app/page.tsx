@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import BrandsCars from "@/components/home/banners/brandsCars/brandsCars";
 import Filters from "@/components/catalogo/filterSearch/filterSearch";
 import { api } from "@/services/api";
+import SkeletonCard from "@/components/catalogo/skeletonCard";
 
 export default function Home() {
   const router = useRouter();
@@ -76,8 +77,7 @@ export default function Home() {
               />
             ))
           ) : (
-            <p>Cargando categorías...</p>
-          )}
+        <SkeletonCard  key={4} />         )}
         </div>
         <div className="flex justify-center mt-5">
           <button
