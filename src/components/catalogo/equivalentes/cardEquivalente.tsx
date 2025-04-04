@@ -46,10 +46,10 @@ export default function ProductEquivalent({ productos, handleViewMore, addToCart
                 <div key={producto.id} className="border border-grey-100 bg-white rounded-lg shadow-lg overflow-hidden p-4 flex flex-col">
                     <p className="text-sm mt-4 text-center hover:cursor-pointer">{producto.code}</p>
                 <p 
-                    className="text-lg font-semibold mt-0 text-center hover:cursor-pointer min-h-[56px]"
+                    className="text-lg font-semibold mt-0 text-center hover:cursor-pointer h-[56px] "
                     title={producto.full_name}
                 >
-                    {producto.full_name.length > 50 ? `${producto.full_name.substring(0, 70)}...` : producto.full_name}
+                    {producto.full_name.length > 50 ? `${producto.full_name.substring(0, 60)}...` : producto.full_name}
                 </p>
                     <div className="relative h-48 w-full hover:cursor-pointer" onClick={() => handleViewMore(producto)}>
                         <Image 

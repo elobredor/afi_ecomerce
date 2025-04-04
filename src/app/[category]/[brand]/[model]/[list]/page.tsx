@@ -32,14 +32,8 @@ const ProductDetail = () => {
 
 
     const dispatch = useDispatch()
-    useEffect(() => {
-        console.log("esto es el producto desde el useEffect", producto);
-        
-       
-    }, [producto]);
+ 
 
-    
-  
 
     useEffect(() => {
         const fetchProductos = async () => {
@@ -61,7 +55,8 @@ const ProductDetail = () => {
     
     const handleAddToCart = useCallback((product: Producto, brandSelected: Equivalent) => {
         dispatch(addToCart({ ...product, quantity, brand: brandSelected }));
-      }, [dispatch]);
+        setQuantity(1); // Reiniciar la cantidad después de agregar al carrito
+      }, [dispatch, quantity]);
 
 
     return (
@@ -199,7 +194,7 @@ const ProductDetail = () => {
                         {/* Botones de acción */}
                         <div className="mt-4 flex flex-col gap-2">
                             {/* 🔹 Botón de "Agregar al carrito" ocupa toda la fila */}
-                            {isAuthenticated ? <button onClick={()=>console.log('agergajad')
+                            {isAuthenticated ? <button onClick={()=>handleAddToCart(producto?.item)
                             } className="bg-primary text-white py-2 rounded-full font-bold hover:bg-blue-700 transition w-full text-[12px] py-3">
                                 Agregar al carrito
                             </button> : null
@@ -219,13 +214,13 @@ const ProductDetail = () => {
                 </div>
 
                 {/* Descripción y Aplicaciones */}
-                <div className="mt-1 p-6">
+                {/* <div className="mt-1 p-6">
                     <h3 className="font-normal text-md text-primary">Descripción:</h3>
                     <p className="text-gray-400 mt-2 text-sm">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt.
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt.
                     </p>
-                </div>
+                </div> */}
 
                 {/* OEM y Aplicaciones */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-1 p-6">

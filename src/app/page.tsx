@@ -15,122 +15,81 @@ import styles from "../components/catalogo/catalogoPage.module.css";
 import { useRouter } from "next/navigation";
 import BrandsCars from "@/components/home/banners/brandsCars/brandsCars";
 import Filters from "@/components/catalogo/filterSearch/filterSearch";
-import { CardRelProductProps } from "@/types/interfaces";
 import { api } from "@/services/api";
-
-
-// 1. comprobar que devuelve products.getAll 
-// 2. corregir el modelo o interface en cuestion , importante recibir nombre y logo 
-// 3. buscar manera de que los select reciban esto como opciones
-// 4. manera de ejecutar ese filtro 
-// 5. 
 
 export default function Home() {
   const router = useRouter();
-  // const [productos, setProductos] = useState<CardRelProductProps[]>([]);
-  const [categories, setCategories] = useState<CardRelProductProps[] | null>(null); // hacer un fetch con el insomnia y ver lo que de devuelve este servicio en custion
+
+  const [categories, setCategories] = useState<{ label: string; value: string }[]>([]);
+ 
 
   useEffect(() => {
-    const fetchData = async () => {
-      // const resultProducts = await api.products.getAll(); 
-      const resultCategories = await api.categories.getList();
-      console.log("resultCategories", resultCategories);
-      
-      // setProductos(resultProducts);
-      setCategories(
-        resultCategories.data.map((category: any) => ({
-          id: category.mga_id,
-          imageSrc: category.imageSrc || "/placeholder.jpg", // Default image if not provided
-          text: category.mga_name,
-        }))
-      );
+    const fetchCategories = async () => {
+      try {
+        const resultCategories = await api.categories.getList();
+        setCategories(resultCategories.data.map((category: any) => ({
+          label: category.mga_name,
+          value: category.mga_id,
+        })));
+      } catch (error) {
+        console.error("Error cargando categorías", error);
+      }
     };
-    fetchData();
+    fetchCategories();
   }, []);
 
-  //  esto debe ser dinamico o no ?  creo que se va a manejar en un dashboard.
+ 
+
   const bannerImages = [
     { src: "/banners/bannerhome.png", alt: "Imagen 1" },
     { src: "/banners/bannerhome.png", alt: "Imagen 2" },
     { src: "/banners/bannerhome.png", alt: "Imagen 3" },
   ];
- 
 
   const filtersData = [
-    {
-      name: "Categoría",
-      options: categories
-        ? categories.map((category) => ({
-            label: category.text,
-            value: category.id,
-          }))
-        : [],
-    },
-    { name: "Marca", options: [{ label: "Toyota", value: "Toyota" }, { label: "Ford", value: "Ford" }] },
-    { name: "Linea", options: [{ label: "TXL 3.1", value: "txl" }, { label: "Focus", value: "Focus" }] },
-    { name: "Modelo", options: [{ label: "2010", value: "2020" }, { label: "2020", value: "2010" }] },
+    { name: "Categoría", options: categories },
+ 
   ];
+
   const handleFilterChange = (selectedFilters: Record<string, { label: string; value: string } | null>) => {
     console.log("Filtros seleccionados:", selectedFilters);
   };
+
   return (
     <div>
-      {/* <BannerHome imageSrc="/banners/bannerhome.png" altText="" /> */}
-
       <BannerHome images={bannerImages} />
-
       <BrandBanner />
-
       <div className="mt-[4rem] mb-[1rem]">
-
-        {/* 🔹 Título */}
         <TitlesBiColor title={"CATEGORÍAS"} subtitle={"DESTACADAS"} text="center" />
-
-
         <div className="mt-[1rem] mb-[1rem]">
-        {/* FIltros Dinamicos */}
-          <Filters filters={filtersData} onFilterChange={handleFilterChange} onSearch={(selectedFilters) => {console.log(selectedFilters)
-          }} />
+          <Filters filters={filtersData} onFilterChange={handleFilterChange} />
         </div>
-        {/*Categoría DESTACADAS */}
-          
-
-          <div className={styles.gridContainer}>
-          {categories === null ? (
-            <p>Cargando categorías...</p>
-          ) : categories.length > 0 ? (
+        <div className={styles.gridContainer}>
+          {categories.length > 0 ? (
             categories.map((catalogo) => (
               <CardCatalogo
-                key={catalogo.id}
-                imageSrc={catalogo.imageSrce}
-                text={catalogo.text}
-                id={catalogo.id}
+                key={catalogo.value}
+                imageSrc={catalogo.imageSrc || "/placeholder.jpg"}
+                text={catalogo.label}
+                id={catalogo.value}
                 level="categoria"
               />
             ))
           ) : (
-            <p>No hay categorías disponibles</p>
+            <p>Cargando categorías...</p>
           )}
         </div>
-  
-       
-        {/* 🔹 Botón "Ver Más" centrado */}
         <div className="flex justify-center mt-5">
           <button
-            style={{ backgroundColor: '#002C6A' }} // 🔥 Usa variables CSS de Tailwind
-
-            className=" rounded-full text-white text-[12px] px-8 py-3 hover:bg-blue-200 transition"
-            onClick={() => router.push("/catalogo")} >
+            style={{ backgroundColor: '#002C6A' }}
+            className="rounded-full text-white text-[12px] px-8 py-3 hover:bg-blue-200 transition"
+            onClick={() => router.push("/catalogo")}
+          >
             Ver Todas
           </button>
         </div>
       </div>
-
-      {/* 🔹 Banner de marcas */}
       <Banner imageSrc="/banners/Catalogo.png" altText="" mt="50" />
-      {/* slide Productos relacionados */}
-      {/* <SliderCards productos={productos} title={"PRODUCTOS"} subtitle={"POPULARES"} /> */}
-
       <BrandsCars />
     </div>
   );
