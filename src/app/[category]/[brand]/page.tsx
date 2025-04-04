@@ -17,8 +17,8 @@ const MarcasPage = () => {
   
   // Extraer categoría y marca de la URL
   const pathParts = pathname.split('/').filter(part => part);
-  const categoriaId = pathParts[0] || '';
-  const marcaId = pathParts[1] || '';
+  const currentCategory = pathParts[0] || '';
+  const currentBrand = pathParts[1] || '';
 
   // Función para obtener las líneas desde la API
   const fetchMarcas = async (idmarca: string, idcategoria: string) => {
@@ -41,18 +41,18 @@ const MarcasPage = () => {
 
   // Llamar API cuando la ruta cambie
   useEffect(() => {
-    if (categoriaId && marcaId) {
+    if (currentCategory && currentBrand) {
       setLoading(true);
-      fetchMarcas(marcaId, categoriaId);
+      fetchMarcas(currentBrand, currentCategory);
     }
-  }, [categoriaId, marcaId]);
+  }, [currentCategory, currentBrand]);
 
   return (
     <div>
    
       <div className={styles.catalogContainer}>
         <div className={styles.breadcrumbWrapper}>
-          <Breadcrumb />
+          <Breadcrumb categoria={currentCategory} marca={currentBrand} />
         </div>
 
         {loading ? (
@@ -66,8 +66,8 @@ const MarcasPage = () => {
                   imageSrc={marca.imageSrc}
                   text={marca.text}
                   id={marca.id}
-                  categoria={categoriaId}
-                  marca={marcaId}
+                  categoria={currentCategory}
+                  marca={currentBrand}
                   modelo={marca.id}
                   level="linea"
                 />

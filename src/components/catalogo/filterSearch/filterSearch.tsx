@@ -127,14 +127,16 @@ const Filters: React.FC<FiltersProps> = ({ onFilterChange}) => {
       return;
     }
 
-    const categoriaId = selectedCategory.label;
-    const marcaId = selectedBrand?.label || "todas-las-marcas";
-    const lineaId = selectedLine?.label || "todas-las-lineas";
-    const modeloId = selectedModel || "todos-los-modelos";
- 
+    const pathSegments = [
+      selectedCategory.label,
+      selectedBrand?.label,
+      selectedLine?.label,
+      selectedModel || null,
+    ]
+      .filter(Boolean) // Filtrar valores nulos o indefinidos
+      .map((segment) => segment?.replace(/\s+/g, '-')); // Reemplazar espacios por guiones
 
-    // Construir la nueva URL directamente
-    const newPath = `/${categoriaId}/${marcaId}/${lineaId}/${modeloId}`.replace(/\s+/g, '-');
+    const newPath = `/${pathSegments.join('/')}`;
 
     // Navegar a la nueva ruta
     window.location.href = newPath;

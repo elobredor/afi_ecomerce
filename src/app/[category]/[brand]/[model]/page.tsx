@@ -33,9 +33,9 @@ const ModelPage = () => {
   
   // Extraer categoría, marca y línea de la URL
   const pathParts = pathname.split('/').filter(part => part);
-  const categoriaId = pathParts[0] || '';
-  const marcaId = pathParts[1] || '';
-  const lineaId = pathParts[2] || '';
+  const currentCategory = pathParts[0] || '';
+  const currentBrand = pathParts[1] || '';
+  const currentLine = pathParts[2] || '';
   const productoId = pathParts[3] || '';
 
   // Función para obtener los productos desde la API
@@ -52,18 +52,15 @@ const ModelPage = () => {
 
   // Llamar API cuando la ruta cambie
   useEffect(() => {
-    if (categoriaId && marcaId && lineaId) {
-      fetchProductos(categoriaId, marcaId, lineaId);
+    if (currentCategory && currentBrand && currentLine) {
+      fetchProductos(currentCategory, currentBrand, currentLine);
       
-      // También actualizar el estado de Redux para mantener la sincronización
-      dispatch(setCategoria({ id: '1', name: categoriaId }));
-      dispatch(setMarca({ id: '1', name: marcaId }));
-      dispatch(setLinea({ id: '1', name: lineaId }));
+      
       if (productoId) {
         dispatch(setProducto({ id: '1', name: productoId }));
       }
     }
-  }, [categoriaId, marcaId, lineaId, productoId, dispatch]);
+  }, [currentCategory, currentBrand, currentLine, productoId, dispatch]);
 
   const handleViewMore = (producto: Producto) => {
     const cleanText = producto.code;
@@ -72,7 +69,7 @@ const ModelPage = () => {
       dispatch(setProducto({ id, name: cleanText }));
       
       // Construir la nueva URL directamente
-      const newPath = `/${categoriaId}/${marcaId}/${lineaId}/${cleanText}`.replace(/\s+/g, '-');
+      const newPath = `/${currentCategory}/${currentBrand}/${currentLine}/${cleanText}`.replace(/\s+/g, '-');
       router.push(newPath);
     }
   };
@@ -86,7 +83,7 @@ const ModelPage = () => {
       
       <div className={styles.catalogContainer}>
         <div className={styles.breadcrumbWrapper}>
-          <Breadcrumb />
+          <Breadcrumb  categoria={currentCategory} marca={currentBrand} linea={currentLine} />
         </div>
         <div>
           <ProductEquivalent

@@ -61,7 +61,7 @@ const ModelosPage = () => {
       <div className={styles.catalogContainer}>
         {/* 📌 Contenedor de Breadcrumb alineado con las tarjetas */}
         <div className={styles.breadcrumbWrapper}>
-          <Breadcrumb />
+          <Breadcrumb categoria={nameCategory} />
         </div>
 
         {/* 📌 Contenedor de Tarjetas */}
