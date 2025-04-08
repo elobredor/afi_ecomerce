@@ -36,38 +36,9 @@ export default function CatalogoPage() {
 		fetchData();
 	}, []);
 
-	//  esto debe ser dinamico o no ?  creo que se va a manejar en un dashboard.
+	const filtersData = [{ name: "Categoría", options: categories }];
 
-	const filtersData = [
-		{
-			name: "Categoría",
-			options: [
-				{ label: "Compresores", value: "Compresores" },
-				{ label: "Evaporadores", value: "Evaporadores" },
-			],
-		},
-		{
-			name: "Marca",
-			options: [
-				{ label: "Toyota", value: "Toyota" },
-				{ label: "Ford", value: "Ford" },
-			],
-		},
-		{
-			name: "Linea",
-			options: [
-				{ label: "TXL 3.1", value: "txl" },
-				{ label: "Focus", value: "Focus" },
-			],
-		},
-		{
-			name: "Modelo",
-			options: [
-				{ label: "2010", value: "2020" },
-				{ label: "2020", value: "2010" },
-			],
-		},
-	];
+	//  esto debe ser dinamico o no ?  creo que se va a manejar en un dashboard.
 	const handleFilterChange = (
 		selectedFilters: Record<string, { label: string; value: string } | null>
 	) => {
