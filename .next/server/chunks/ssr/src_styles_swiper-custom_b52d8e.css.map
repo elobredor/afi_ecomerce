@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack://[project]/src/styles/swiper-custom.css"],"sourcesContent":[".swiper-pagination {\n    position: absolute;\n    bottom: 0 !important;\n    left: 0;\n    width: 100%;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    z-index: 10;\n  }\n  \n  .swiper-pagination-bullet {\n    width: 10px;\n    height: 10px;\n    background-color: #ccc;\n    opacity: 0.5;\n    transition: all 0.3s ease;\n  }\n  \n  .swiper-pagination-bullet-active {\n    opacity: 1;\n    background-color: #000;\n    transform: scale(1.2);\n  }\n  \n  .custom-swiper-button-prev,\n  .custom-swiper-button-next {\n    background-color: rgba(0, 0, 0, 0.5);\n    color: white;\n    width: 40px;\n    height: 40px;\n    border-radius: 50%;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    cursor: pointer;\n    transition: background-color 0.3s ease;\n  }\n  \n  .custom-swiper-button-prev:hover,\n  .custom-swiper-button-next:hover {\n    background-color: rgba(0, 0, 0, 0.7);\n  }\n  \n  .custom-swiper-button-disabled {\n    opacity: 0.5;\n    cursor: not-allowed;\n  }\n  \n  "],"names":[],"mappings":"AAAA;;;;;;;;;;;AAWE;;;;;;;;AAQA;;;;;;AAMA;;;;;;;;;;;;;AAcA;;;;AAKA"}},
-    {"offset": {"line": 47, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
-}

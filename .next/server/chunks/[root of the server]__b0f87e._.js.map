@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 71, "column": 0}, "map": {"version":3,"sources":["file://C%3A/Users/zipbr/Desktop/afi/src/app/api/catalogo/route.js"],"sourcesContent":["import { NextResponse } from \"next/server\";\nimport fs from \"fs\";\nimport path from \"path\";\n\nexport async function GET() {\n  try {\n    // 🔥 Carga el archivo catalogo.json\n    const filePath = path.join(process.cwd(), \"src\", \"data\", \"catalogo.json\");\n    const jsonData = fs.readFileSync(filePath, \"utf-8\");\n    const data = JSON.parse(jsonData);\n\n    return NextResponse.json(data, { status: 200 });\n  } catch (error) {\n    console.error(\"❌ Error al leer el archivo de productos:\", error);\n    return NextResponse.json({ error: \"Error interno del servidor\" }, { status: 500 });\n  }\n}\n"],"names":[],"mappings":";;;AAAA;AACA;AACA;;;;AAEO,eAAe;IACpB,IAAI;QACF,oCAAoC;QACpC,MAAM,WAAW,iGAAA,CAAA,UAAI,CAAC,IAAI,CAAC,QAAQ,GAAG,IAAI,OAAO,QAAQ;QACzD,MAAM,WAAW,6FAAA,CAAA,UAAE,CAAC,YAAY,CAAC,UAAU;QAC3C,MAAM,OAAO,KAAK,KAAK,CAAC;QAExB,OAAO,+PAAA,CAAA,eAAY,CAAC,IAAI,CAAC,MAAM;YAAE,QAAQ;QAAI;IAC/C,EAAE,OAAO,OAAO;QACd,QAAQ,KAAK,CAAC,4CAA4C;QAC1D,OAAO,+PAAA,CAAA,eAAY,CAAC,IAAI,CAAC;YAAE,OAAO;QAA6B,GAAG;YAAE,QAAQ;QAAI;IAClF;AACF"}},
-    {"offset": {"line": 98, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
-}
